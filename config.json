@@ -1,0 +1,9 @@
+{
+	"url": "https://cad.onshape.com/documents/8ce9f31d0c89cc60c0292a4a/w/f89b084782826ebf4eea3b34/e/2ca1697785d5bc3856d06922",
+	"output_format": "urdf",
+	"output_filename": "drone",
+	"robot_name": "drone",
+	"post_import_commands": [
+		"echo 'Import done'"
+	]
+}

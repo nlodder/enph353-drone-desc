@@ -1,0 +1,7 @@
+<launch>
+	<node pkg="2025_competition"
+		type="drone.py"
+		name="drone"
+		output="screen">
+	</node>
+</launch>
