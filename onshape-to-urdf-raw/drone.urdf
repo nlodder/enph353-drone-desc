@@ -1,0 +1,349 @@
+<?xml version="1.0" ?>
+<!-- Generated using onshape-to-robot -->
+<!-- Onshape https://cad.onshape.com/documents/8ce9f31d0c89cc60c0292a4a/w/f89b084782826ebf4eea3b34/e/2ca1697785d5bc3856d06922 -->
+<robot name="drone">
+  <!-- Link link_drone_body -->
+  <link name="link_drone_body">
+    <inertial>
+      <origin xyz="-0.000926792 0.00067141 -0.00117611" rpy="0 0 0"/>
+      <mass value="0.27585"/>
+      <inertia ixx="0.000942851" ixy="-8.5525e-07" ixz="-2.499e-09" iyy="0.000944175" iyz="1.878e-09" izz="0.0018689"/>
+    </inertial>
+    <!-- Part link_drone_body -->
+    <visual>
+      <origin xyz="-0.000969365 0.000643159 -0.0111761" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_drone_body.stl"/>
+      </geometry>
+      <material name="link_drone_body_material">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.000969365 0.000643159 -0.0111761" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_drone_body.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link link_motor_fl -->
+  <link name="link_motor_fl">
+    <inertial>
+      <origin xyz="0 -0 -0.0101836" rpy="0 0 0"/>
+      <mass value="0.114967"/>
+      <inertia ixx="1.04865e-05" ixy="0" ixz="0" iyy="1.04865e-05" iyz="0" izz="1.27755e-05"/>
+    </inertial>
+    <!-- Part link_motor_fl -->
+    <visual>
+      <origin xyz="-0.09 -0.09 0" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_motor_fl.stl"/>
+      </geometry>
+      <material name="link_motor_fl_material">
+        <color rgba="0.917647 0.917647 0.917647 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.09 -0.09 0" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_motor_fl.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link link_rotor_fl -->
+  <link name="link_rotor_fl">
+    <inertial>
+      <origin xyz="-0 0 0.00360712" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia ixx="6.49463e-06" ixy="0" ixz="0" iyy="6.49463e-06" iyz="0" izz="1.29653e-05"/>
+    </inertial>
+    <!-- Part link_rotor_fl -->
+    <visual>
+      <origin xyz="0.0025 0.0015 0.0045" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_rotor_fl.stl"/>
+      </geometry>
+      <material name="link_rotor_fl_material">
+        <color rgba="0.4 0.388235 0.34902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0025 0.0015 0.0045" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_rotor_fl.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from link_motor_fl to link_rotor_fl -->
+  <joint name="joint_rotor_FL" type="revolute">
+    <origin xyz="0 0 -0.02" rpy="3.14159 -0 0"/>
+    <parent link="link_motor_fl"/>
+    <child link="link_rotor_fl"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
+  </joint>
+  <!-- Joint from link_drone_body to link_motor_fl -->
+  <joint name="joint_motor_FL" type="fixed">
+    <origin xyz="0.0890306 -0.0893568 -0.0111761" rpy="3.14159 -0 0"/>
+    <parent link="link_drone_body"/>
+    <child link="link_motor_fl"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10"/>
+  </joint>
+  <!-- Link link_motor_rl -->
+  <link name="link_motor_rl">
+    <inertial>
+      <origin xyz="0 0 -0.0101836" rpy="0 0 0"/>
+      <mass value="0.114967"/>
+      <inertia ixx="1.04865e-05" ixy="0" ixz="0" iyy="1.04865e-05" iyz="0" izz="1.27755e-05"/>
+    </inertial>
+    <!-- Part link_motor_rl -->
+    <visual>
+      <origin xyz="-0.09 0.09 0" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_motor_rl.stl"/>
+      </geometry>
+      <material name="link_motor_rl_material">
+        <color rgba="0.917647 0.917647 0.917647 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.09 0.09 0" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_motor_rl.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link link_rotor_rl -->
+  <link name="link_rotor_rl">
+    <inertial>
+      <origin xyz="-0 -0 0.00360712" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia ixx="6.49463e-06" ixy="0" ixz="0" iyy="6.49463e-06" iyz="0" izz="1.29653e-05"/>
+    </inertial>
+    <!-- Part link_rotor_rl -->
+    <visual>
+      <origin xyz="0.0025 0.0015 -0.0455" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_rotor_rl.stl"/>
+      </geometry>
+      <material name="link_rotor_rl_material">
+        <color rgba="0.4 0.388235 0.34902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0025 0.0015 -0.0455" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_rotor_rl.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from link_motor_rl to link_rotor_rl -->
+  <joint name="joint_rotor_RL" type="revolute">
+    <origin xyz="0 -0 -0.02" rpy="3.14159 -0 -0.160013"/>
+    <parent link="link_motor_rl"/>
+    <child link="link_rotor_rl"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
+  </joint>
+  <!-- Joint from link_drone_body to link_motor_rl -->
+  <joint name="joint_motor_RL" type="fixed">
+    <origin xyz="0.0890306 0.0906432 -0.0111761" rpy="3.14159 -0 0"/>
+    <parent link="link_drone_body"/>
+    <child link="link_motor_rl"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10"/>
+  </joint>
+  <!-- Link link_motor_rr -->
+  <link name="link_motor_rr">
+    <inertial>
+      <origin xyz="0 0 -0.0101836" rpy="0 0 0"/>
+      <mass value="0.114967"/>
+      <inertia ixx="1.04865e-05" ixy="0" ixz="0" iyy="1.04865e-05" iyz="0" izz="1.27755e-05"/>
+    </inertial>
+    <!-- Part link_motor_rr -->
+    <visual>
+      <origin xyz="0.09 0.09 0" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_motor_rr.stl"/>
+      </geometry>
+      <material name="link_motor_rr_material">
+        <color rgba="0.917647 0.917647 0.917647 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.09 0.09 0" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_motor_rr.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link link_rotor_rr -->
+  <link name="link_rotor_rr">
+    <inertial>
+      <origin xyz="0 0 0.00360712" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia ixx="6.49463e-06" ixy="0" ixz="0" iyy="6.49463e-06" iyz="0" izz="1.29653e-05"/>
+    </inertial>
+    <!-- Part link_rotor_rr -->
+    <visual>
+      <origin xyz="0.0025 0.0015 -0.0705" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_rotor_rr.stl"/>
+      </geometry>
+      <material name="link_rotor_rr_material">
+        <color rgba="0.4 0.388235 0.34902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0025 0.0015 -0.0705" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_rotor_rr.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from link_motor_rr to link_rotor_rr -->
+  <joint name="joint_rotor_RR" type="revolute">
+    <origin xyz="0 0 -0.02" rpy="3.14159 -0 0"/>
+    <parent link="link_motor_rr"/>
+    <child link="link_rotor_rr"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
+  </joint>
+  <!-- Joint from link_drone_body to link_motor_rr -->
+  <joint name="joint_motor_RR" type="fixed">
+    <origin xyz="-0.0909694 0.0906432 -0.0111761" rpy="3.14159 -0 0"/>
+    <parent link="link_drone_body"/>
+    <child link="link_motor_rr"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10"/>
+  </joint>
+  <!-- Link link_motor_fr -->
+  <link name="link_motor_fr">
+    <inertial>
+      <origin xyz="0 -0 -0.0101836" rpy="0 0 0"/>
+      <mass value="0.114967"/>
+      <inertia ixx="1.04865e-05" ixy="0" ixz="0" iyy="1.04865e-05" iyz="0" izz="1.27755e-05"/>
+    </inertial>
+    <!-- Part link_motor_fr -->
+    <visual>
+      <origin xyz="0.09 -0.09 0" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_motor_fr.stl"/>
+      </geometry>
+      <material name="link_motor_fr_material">
+        <color rgba="0.917647 0.917647 0.917647 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.09 -0.09 0" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_motor_fr.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link link_rotor_fr -->
+  <link name="link_rotor_fr">
+    <inertial>
+      <origin xyz="-0 0 0.00360712" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia ixx="6.49463e-06" ixy="0" ixz="0" iyy="6.49463e-06" iyz="0" izz="1.29653e-05"/>
+    </inertial>
+    <!-- Part link_rotor_fr -->
+    <visual>
+      <origin xyz="0.0025 0.0015 -0.0205" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_rotor_fr.stl"/>
+      </geometry>
+      <material name="link_rotor_fr_material">
+        <color rgba="0.4 0.388235 0.34902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0025 0.0015 -0.0205" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_rotor_fr.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from link_motor_fr to link_rotor_fr -->
+  <joint name="joint_rotor_FR" type="revolute">
+    <origin xyz="0 0 -0.02" rpy="3.14159 -0 0"/>
+    <parent link="link_motor_fr"/>
+    <child link="link_rotor_fr"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
+  </joint>
+  <!-- Joint from link_drone_body to link_motor_fr -->
+  <joint name="joint_motor_FR" type="fixed">
+    <origin xyz="-0.0909694 -0.0893568 -0.0111761" rpy="3.14159 -0 0"/>
+    <parent link="link_drone_body"/>
+    <child link="link_motor_fr"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10"/>
+  </joint>
+  <!-- Link link_imu -->
+  <link name="link_imu">
+    <inertial>
+      <origin xyz="0 0 -0.0025" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia ixx="1.04167e-07" ixy="0" ixz="0" iyy="1.04167e-07" iyz="0" izz="1.66667e-07"/>
+    </inertial>
+    <!-- Part link_imu -->
+    <visual>
+      <origin xyz="-0 -0 0" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_imu.stl"/>
+      </geometry>
+      <material name="link_imu_material">
+        <color rgba="0.980392 0.713725 0.00392157 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0 -0 0" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_imu.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from link_drone_body to link_imu -->
+  <joint name="joint_imu" type="fixed">
+    <origin xyz="-0.000969365 0.000643159 -0.00617609" rpy="3.14159 -0 0"/>
+    <parent link="link_drone_body"/>
+    <child link="link_imu"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10"/>
+  </joint>
+  <!-- Link link_camera -->
+  <link name="link_camera">
+    <inertial>
+      <origin xyz="-0 0 -0.005" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia ixx="4.16667e-07" ixy="0" ixz="0" iyy="4.16667e-07" iyz="0" izz="6.66667e-07"/>
+    </inertial>
+    <!-- Part link_camera -->
+    <visual>
+      <origin xyz="-0 -0 -0" rpy="1.5708 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_camera.stl"/>
+      </geometry>
+      <material name="link_camera_material">
+        <color rgba="0 0 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0 -0 -0" rpy="1.5708 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets/link_camera.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from link_drone_body to link_camera -->
+  <joint name="joint_camera" type="fixed">
+    <origin xyz="-0.000969365 -0.0193568 -0.00117609" rpy="-1.5708 -0 -0"/>
+    <parent link="link_drone_body"/>
+    <child link="link_camera"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10"/>
+  </joint>
+</robot>

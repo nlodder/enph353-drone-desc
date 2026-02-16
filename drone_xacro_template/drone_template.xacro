@@ -1,0 +1,294 @@
+<?xml version="1.0"?>
+<robot name="drone" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- MOTOR PROPERTIES -->
+    <!-- MOTOR PROPERTIES - LINK -->
+    <xacro:property name="l_motor_fl_inert_orig_xyz" value="" />
+    <xacro:property name="l_motor_fr_inert_orig_xyz" value="" />
+    <xacro:property name="l_motor_rl_inert_orig_xyz" value="" />
+    <xacro:property name="l_motor_rr_inert_orig_xyz" value="" />
+
+    <xacro:property name="l_motor_fl_inert_orig_rpy" value="" />
+    <xacro:property name="l_motor_fr_inert_orig_rpy" value="" />
+    <xacro:property name="l_motor_rl_inert_orig_rpy" value="" />
+    <xacro:property name="l_motor_rr_inert_orig_rpy" value="" />
+
+    <xacro:property name="l_motor_mass" value="" />
+    <xacro:property name="l_motor_ixx" value="" />
+    <xacro:property name="l_motor_ixy" value="" />
+    <xacro:property name="l_motor_ixz" value="" />
+    <xacro:property name="l_motor_iyy" value="" />
+    <xacro:property name="l_motor_iyz" value="" />
+    <xacro:property name="l_motor_izz" value="" />
+    <!-- link - motors - visual -->
+    <xacro:property name="l_motor_color" value="" />
+    <!-- link -motors - visual & collision shared -->
+    <xacro:property name="l_motor_fl_vis_coll_orig_xyz" value="" />
+    <xacro:property name="l_motor_fr_vis_coll_orig_xyz" value="" />
+    <xacro:property name="l_motor_rl_vis_coll_orig_xyz" value="" />
+    <xacro:property name="l_motor_rr_vis_coll_orig_xyz" value="" />
+
+    <xacro:property name="l_motor_fl_vis_coll_orig_rpy" value="" />
+    <xacro:property name="l_motor_fr_vis_coll_orig_rpy" value="" />
+    <xacro:property name="l_motor_rl_vis_coll_orig_rpy" value="" />
+    <xacro:property name="l_motor_rr_vis_coll_orig_rpy" value="" />
+
+    <xacro:property name="l_motor_fl_mesh" value="" />
+    <xacro:property name="l_motor_fr_mesh" value="" />
+    <xacro:property name="l_motor_rl_mesh" value="" />
+    <xacro:property name="l_motor_rr_mesh" value="" />
+
+    <!-- MOTOR PROPERTIES - JOINT -->
+    <xacro:property name="j_motor_fr_orig_xyz" value=""/>
+    <xacro:property name="j_motor_fr_orig_rpy" value=""/>
+    <xacro:property name="j_motor_fl_orig_xyz" value=""/>
+    <xacro:property name="j_motor_fl_orig_rpy" value=""/>
+    <xacro:property name="j_motor_rr_orig_xyz" value=""/>
+    <xacro:property name="j_motor_rr_orig_rpy" value=""/>
+    <xacro:property name="j_motor_rl_orig_xyz" value=""/>
+    <xacro:property name="j_motor_rl_orig_rpy" value=""/>
+
+    <xacro:property name="j_motor_fr_child_link" value="" />
+    <xacro:property name="j_motor_fl_child_link" value="" />
+    <xacro:property name="j_motor_rr_child_link" value="" />
+    <xacro:property name="j_motor_rl_child_link" value="" />
+
+    <xacro:property name="j_motor_parent_link" value="" />
+    <xacro:property name="j_motor_joint_axis" value="" />
+    <xacro:property name="j_motor_lim_effort" value="10" />
+    <xacro:property name="j_motor_lim_vel" value="10" />
+
+    <!-- ROTOR PROPERTIES-->
+    <!-- ROTOR PROPERTIES - LINK -->
+    <xacro:property name="l_rotor_fl_inert_orig_xyz" value="" />
+    <xacro:property name="l_rotor_fr_inert_orig_xyz" value="" />
+    <xacro:property name="l_rotor_rl_inert_orig_xyz" value="" />
+    <xacro:property name="l_rotor_rr_inert_orig_xyz" value="" />
+
+    <xacro:property name="l_rotor_fl_inert_orig_rpy" value="" />
+    <xacro:property name="l_rotor_fr_inert_orig_rpy" value="" />
+    <xacro:property name="l_rotor_rl_inert_orig_rpy" value="" />
+    <xacro:property name="l_rotor_rr_inert_orig_rpy" value="" />
+
+    <xacro:property name="l_rotor_mass" value="" />
+    <xacro:property name="l_rotor_ixx" value="" />
+    <xacro:property name="l_rotor_ixy" value="" />
+    <xacro:property name="l_rotor_ixz" value="" />
+    <xacro:property name="l_rotor_iyy" value="" />
+    <xacro:property name="l_rotor_iyz" value="" />
+    <xacro:property name="l_rotor_izz" value="" />
+    <!-- link - rotors - visual -->
+    <xacro:property name="l_rotor_color" value="" />
+    <!-- link - rotors - visual & collision shared -->
+    <xacro:property name="l_rotor_fl_vis_coll_orig_xyz" value="" />
+    <xacro:property name="l_rotor_fr_vis_coll_orig_xyz" value="" />
+    <xacro:property name="l_rotor_rl_vis_coll_orig_xyz" value="" />
+    <xacro:property name="l_rotor_rr_vis_coll_orig_xyz" value="" />
+
+    <xacro:property name="l_rotor_fl_vis_coll_orig_rpy" value="" />
+    <xacro:property name="l_rotor_fr_vis_coll_orig_rpy" value="" />
+    <xacro:property name="l_rotor_rl_vis_coll_orig_rpy" value="" />
+    <xacro:property name="l_rotor_rr_vis_coll_orig_rpy" value="" />
+
+    <xacro:property name="l_rotor_fl_mesh" value="" />
+    <xacro:property name="l_rotor_fr_mesh" value="" />
+    <xacro:property name="l_rotor_rl_mesh" value="" />
+    <xacro:property name="l_rotor_rr_mesh" value="" />
+
+    <!-- ROTOR PROPERTIES - JOINT -->
+    <xacro:property name="j_rotor_fr_orig_xyz" value=""/>
+    <xacro:property name="j_rotor_fr_orig_rpy" value=""/>
+    <xacro:property name="j_rotor_fl_orig_xyz" value=""/>
+    <xacro:property name="j_rotor_fl_orig_rpy" value=""/>
+    <xacro:property name="j_rotor_rr_orig_xyz" value=""/>
+    <xacro:property name="j_rotor_rr_orig_rpy" value=""/>
+    <xacro:property name="j_rotor_rl_orig_xyz" value=""/>
+    <xacro:property name="j_rotor_rl_orig_rpy" value=""/>
+
+    <xacro:property name="j_rotor_fr_child_link" value="" />
+    <xacro:property name="j_rotor_fl_child_link" value="" />
+    <xacro:property name="j_rotor_rr_child_link" value="" />
+    <xacro:property name="j_rotor_rl_child_link" value="" />
+
+    <xacro:property name="j_rotor_fr_parent_link" value="" />
+    <xacro:property name="j_rotor_fl_parent_link" value="" />
+    <xacro:property name="j_rotor_rr_parent_link" value="" />
+    <xacro:property name="j_rotor_rl_parent_link" value="" />
+
+    <xacro:property name="j_rotor_joint_axis" value="" />
+    <xacro:property name="j_rotor_lim_effort" value="10" />
+    <xacro:property name="j_rotor_lim_vel" value="1000" />
+
+
+    <!-- MACROS -->
+
+    <!-- MACROS - MOTORS -->
+    <xacro:macro name="motor_link_joint" params="location">
+        <!-- create motor link-->
+        <link name="link_motor_${location}">
+            <inertial>
+                <origin xyz="${xacro.get_property('l_motor_' + location + '_inert_orig_xyz')}"
+                    rpy="${xacro.get_property('l_motor_' + location + '_inert_orig_rpy')}" />
+                <mass value="${l_motor_mass}" />
+                <inertia
+                    ixx="${l_motor_ixx}" ixy="${l_motor_ixy}" ixz="${l_motor_ixz}"
+                    iyy="${l_motor_iyy}" iyz="${l_motor_iyz}" izz="${l_motor_izz}"
+                />
+            </inertial>
+            <visual>
+                <origin xyz="${xacro.get_property('l_motor_' + location + '_vis_coll_orig_xyz')}"
+                    rpy="${xacro.get_property('l_motor_' + location + '_vis_coll_orig_rpy')}" />
+                <geometry>
+                    <mesh filename="${xacro.get_property('l_motor_' + location + '_mesh')}" />
+                </geometry>
+                <material name="link_motor_${location}_material">
+                    <color rgba="${l_motor_color}" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="${xacro.get_property('l_motor_' + location + '_vis_coll_orig_xyz')}"
+                    rpy="${xacro.get_property('l_motor_' + location + '_vis_coll_orig_rpy')}" />
+                <geometry>
+                    <mesh filename="${xacro.get_property('l_motor_' + location + '_mesh')}" />
+                </geometry>
+            </collision>
+        </link>
+        <!-- create motor joint-->
+        <joint name="joint_motor_${location}" type="fixed">
+            <origin xyz="${xacro.get_property('j_motor_' + location + '_orig_xyz')}"
+                rpy="${xacro.get_property('j_motor_' + location + '_orig_rpy')}" />
+            <parent link="${j_motor_parent_link}" />
+            <child link="${xacro.get_property('j_motor_' + location + '_child_link')}" />
+            <axis xyz="${j_motor_joint_axis}" />
+            <limit effort="${j_motor_lim_effort}" velocity="${j_motor_lim_vel}" />
+        </joint>
+    </xacro:macro>
+
+    <!-- MACROS - ROTORS -->
+    <xacro:macro name="rotor_link_joint" params="location">
+        <!-- create rotor link-->
+        <link name="link_rotor_${location}">
+            <inertial>
+                <origin xyz="${xacro.get_property('l_rotor_' + location + '_inert_orig_xyz')}"
+                    rpy="${xacro.get_property('l_rotor_' + location + '_inert_orig_rpy')}" />
+                <mass value="${l_rotor_mass}" />
+                <inertia
+                    ixx="${l_rotor_ixx}" ixy="${l_rotor_ixy}" ixz="${l_rotor_ixz}"
+                    iyy="${l_rotor_iyy}" iyz="${l_rotor_iyz}" izz="${l_rotor_izz}"
+                />
+            </inertial>
+            <visual>
+                <origin xyz="${xacro.get_property('l_rotor_' + location + '_vis_coll_orig_xyz')}"
+                    rpy="${xacro.get_property('l_rotor_' + location + '_vis_coll_orig_rpy')}" />
+                <geometry>
+                    <mesh filename="${xacro.get_property('l_rotor_' + location + '_mesh')}" />
+                </geometry>
+                <material name="link_rotor_${location}_material">
+                    <color rgba="${l_rotor_color}" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="${xacro.get_property('l_rotor_' + location + '_vis_coll_orig_xyz')}"
+                    rpy="${xacro.get_property('l_rotor_' + location + '_vis_coll_orig_rpy')}" />
+                <geometry>
+                    <mesh filename="${xacro.get_property('l_rotor_' + location + '_mesh')}" />
+                </geometry>
+            </collision>
+        </link>
+        <!-- create rotor joint-->
+        <joint name="joint_rotor_${location}" type="fixed">
+            <origin xyz="${xacro.get_property('j_rotor_' + location + '_orig_xyz')}"
+                rpy="${xacro.get_property('j_rotor_' + location + '_orig_rpy')}" />
+            <parent link="${xacro.get_property('j_rotor_' + location + '_parent_link')}" />
+            <child link="${xacro.get_property('j_rotor_' + location + '_child_link')}" />
+            <axis xyz="${j_rotor_joint_axis}" />
+            <limit effort="${j_rotor_lim_effort}" velocity="${j_rotor_lim_vel}" />
+        </joint>
+
+        <!-- GAZEBO -->
+        <gazebo reference="link_rotor_${location}">
+            <plugin name="rotor_${location}_thrust" filename="libgazebo_ros_force.so">
+                <updateRate>100.0</updateRate>
+                <robotNamespace>/</robotNamespace>
+                <bodyName>link_rotor_${location}</bodyName>
+                <topicName>rotor_${location}_thrust</topicName>
+                <broadcastTF>true</broadcastTF>
+            </plugin>
+        </gazebo>
+    </xacro:macro>
+
+
+    <!-- CREATE ROBOT -->
+    <!-- create motor links and joints-->
+    <xacro:motor_link_joint location="fl" />
+    <xacro:motor_link_joint location="fr" />
+    <xacro:motor_link_joint location="rl" />
+    <xacro:motor_link_joint location="rr" />
+
+    <!-- create rotor links, joints, and gazebo force plugins -->
+    <xacro:rotor_link_joint location="fl" />
+    <xacro:rotor_link_joint location="fr" />
+    <xacro:rotor_link_joint location="rl" />
+    <xacro:rotor_link_joint location="rr" />
+
+
+    <gazebo reference="link_imu">
+        <gravity>true</gravity>
+        <sensor name="imu_sensor" type="imu">
+            <always_on>true</always_on>
+            <update_rate>100</update_rate>
+            <visualize>true</visualize>
+            <topic>__default_topic__</topic>
+            <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+                <topicName>imu</topicName>
+                <bodyName>link_imu</bodyName>
+                <updateRateHZ>100.0</updateRateHZ>
+                <gaussianNoise>0.0</gaussianNoise>
+                <xyzOffset>0 0 0</xyzOffset>
+                <rpyOffset>0 0 0</rpyOffset>
+                <frameName>link_imu</frameName>
+                <initialOrientationAsReference>false</initialOrientationAsReference>
+            </plugin>
+            <pose>0 0 0 0 0 0</pose>
+        </sensor>
+    </gazebo>
+
+    <gazebo reference="link_camera">
+        <sensor type="camera" name="camera1">
+            <update_rate>30.0</update_rate>
+            <camera name="head">
+                <horizontal_fov>1.3962634</horizontal_fov>
+                <image>
+                    <width>800</width>
+                    <height>800</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.02</near>
+                    <far>300</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <!-- Noise is sampled independently per pixel on each frame.
+               That pixel's noise value is added to each of its color
+               channels, which at that point lie in the range [0,1]. -->
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            </camera>
+            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>drone/camera1</cameraName>
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>link_camera</frameName>
+                <hackBaseline>0.07</hackBaseline>
+                <distortionK1>0.0</distortionK1>
+                <distortionK2>0.0</distortionK2>
+                <distortionK3>0.0</distortionK3>
+                <distortionT1>0.0</distortionT1>
+                <distortionT2>0.0</distortionT2>
+            </plugin>
+        </sensor>
+    </gazebo>
+</robot>
