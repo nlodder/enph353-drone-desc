@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>assets</name>
+  <version>0.0.0</version>
+  <description>Drone meshes</description>
+  <maintainer email="user@todo.todo">user</maintainer>
+  <license>TODO</license>
+</package>
