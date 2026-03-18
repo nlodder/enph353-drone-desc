@@ -331,7 +331,7 @@
     </joint>
 
     <joint name="joint_camera" type="fixed">
-        <origin xyz="0.0197234 -8.03059e-05 0.01" rpy="-1.5708 -0 1.5708" />
+        <origin xyz="0.0197234 -8.03059e-05 0.02" rpy="-0 -0 -0" />
         <parent link="link_drone_body" />
         <child link="link_camera" />
         <axis xyz="0 0 1" />
