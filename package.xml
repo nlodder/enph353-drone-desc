@@ -5,4 +5,15 @@
   <description>Competition drone for ENPH 353</description>
   <maintainer email="nathan.lodder@proton.me">Nathan Lodder</maintainer>
   <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>cv_bridge</depend>
+  <depend>xacro</depend>
+
+  <exec_depend>gazebo_ros</exec_depend>
 </package>
