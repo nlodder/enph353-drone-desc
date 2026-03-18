@@ -1,0 +1,462 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="enph353-comp-drone">
+
+
+  <xacro:property name="l_motor_fl_inert_orig_xyz" value="0 -0 -0.0101836" />
+  <xacro:property name="l_motor_fr_inert_orig_xyz" value="0 -0 -0.0101836" />
+  <xacro:property name="l_motor_rl_inert_orig_xyz" value="0 0 -0.0101836" />
+  <xacro:property name="l_motor_rr_inert_orig_xyz" value="0 0 -0.0101836" />
+
+  <xacro:property name="l_motor_fl_inert_orig_rpy" value="0 0 0" />
+  <xacro:property name="l_motor_fr_inert_orig_rpy" value="0 0 0" />
+  <xacro:property name="l_motor_rl_inert_orig_rpy" value="0 0 0" />
+  <xacro:property name="l_motor_rr_inert_orig_rpy" value="0 0 0" />
+
+  <xacro:property name="l_motor_mass" value="0.114967" />
+  <xacro:property name="l_motor_ixx" value="1.04865e-05" />
+  <xacro:property name="l_motor_ixy" value="0" />
+  <xacro:property name="l_motor_ixz" value="0" />
+  <xacro:property name="l_motor_iyy" value="1.04865e-05" />
+  <xacro:property name="l_motor_iyz" value="0" />
+  <xacro:property name="l_motor_izz" value="1.27755e-05" />
+
+  <xacro:property name="l_motor_color" value="0.917647 0.917647 0.917647 1" />
+
+  <xacro:property name="l_motor_fl_vis_coll_orig_xyz" value="-0.09 -0.09 0" />
+  <xacro:property name="l_motor_fr_vis_coll_orig_xyz" value="0.09 -0.09 0" />
+  <xacro:property name="l_motor_rl_vis_coll_orig_xyz" value="-0.09 0.09 0" />
+  <xacro:property name="l_motor_rr_vis_coll_orig_xyz" value="0.09 0.09 0" />
+
+  <xacro:property name="l_motor_fl_vis_coll_orig_rpy" value="3.14159 -0 0" />
+  <xacro:property name="l_motor_fr_vis_coll_orig_rpy" value="3.14159 -0 0" />
+  <xacro:property name="l_motor_rl_vis_coll_orig_rpy" value="3.14159 -0 0" />
+  <xacro:property name="l_motor_rr_vis_coll_orig_rpy" value="3.14159 -0 0" />
+
+  <xacro:property name="l_motor_fl_mesh"
+    value="package://enph353-comp-drone/meshes/link_motor_fl.stl" />
+  <xacro:property name="l_motor_fr_mesh"
+    value="package://enph353-comp-drone/meshes/link_motor_fr.stl" />
+  <xacro:property name="l_motor_rl_mesh"
+    value="package://enph353-comp-drone/meshes/link_motor_rl.stl" />
+  <xacro:property name="l_motor_rr_mesh"
+    value="package://enph353-comp-drone/meshes/link_motor_rr.stl" />
+
+
+  <xacro:property name="j_motor_fr_orig_xyz" value="-0.0909694 -0.0893568 -0.0111761" />
+  <xacro:property name="j_motor_fr_orig_rpy" value="3.14159 -0 0" />
+  <xacro:property name="j_motor_fl_orig_xyz" value="0.0890306 -0.0893568 -0.0111761" />
+  <xacro:property name="j_motor_fl_orig_rpy" value="3.14159 -0 0" />
+  <xacro:property name="j_motor_rr_orig_xyz" value="-0.0909694 0.0906432 -0.0111761" />
+  <xacro:property name="j_motor_rr_orig_rpy" value="3.14159 -0 0" />
+  <xacro:property name="j_motor_rl_orig_xyz" value="0.0890306 0.0906432 -0.0111761" />
+  <xacro:property name="j_motor_rl_orig_rpy" value="3.14159 -0 0" />
+
+  <xacro:property name="j_motor_fr_child_link" value="link_motor_fr" />
+  <xacro:property name="j_motor_fl_child_link" value="link_motor_fl" />
+  <xacro:property name="j_motor_rr_child_link" value="link_motor_rr" />
+  <xacro:property name="j_motor_rl_child_link" value="link_motor_rl" />
+
+  <xacro:property name="j_motor_parent_link" value="link_drone_body" />
+  <xacro:property name="j_motor_joint_axis" value="0 0 1" />
+  <xacro:property name="j_motor_lim_effort" value="10" />
+  <xacro:property name="j_motor_lim_vel" value="10" />
+
+
+  <xacro:property name="l_rotor_fl_inert_orig_xyz" value="-0 0 0.00360712" />
+  <xacro:property name="l_rotor_fr_inert_orig_xyz" value="-0 0 0.00360712" />
+  <xacro:property name="l_rotor_rl_inert_orig_xyz" value="-0 -0 0.00360712" />
+  <xacro:property name="l_rotor_rr_inert_orig_xyz" value="0 0 0.00360712" />
+
+  <xacro:property name="l_rotor_fl_inert_orig_rpy" value="0 0 0" />
+  <xacro:property name="l_rotor_fr_inert_orig_rpy" value="0 0 0" />
+  <xacro:property name="l_rotor_rl_inert_orig_rpy" value="0 0 0" />
+  <xacro:property name="l_rotor_rr_inert_orig_rpy" value="0 0 0" />
+
+  <xacro:property name="l_rotor_mass" value="0.01" />
+  <xacro:property name="l_rotor_ixx" value="6.49463e-06" />
+  <xacro:property name="l_rotor_ixy" value="0" />
+  <xacro:property name="l_rotor_ixz" value="0" />
+  <xacro:property name="l_rotor_iyy" value="6.49463e-06" />
+  <xacro:property name="l_rotor_iyz" value="0" />
+  <xacro:property name="l_rotor_izz" value="1.29653e-05" />
+
+  <xacro:property name="l_rotor_color" value="0.4 0.388235 0.34902 1" />
+
+  <xacro:property name="l_rotor_fl_vis_coll_orig_xyz" value="0.0025 0.0015 0.0045" />
+  <xacro:property name="l_rotor_fr_vis_coll_orig_xyz" value="0.0025 0.0015 -0.0205" />
+  <xacro:property name="l_rotor_rl_vis_coll_orig_xyz" value="0.0025 0.0015 -0.0455" />
+  <xacro:property name="l_rotor_rr_vis_coll_orig_xyz" value="0.0025 0.0015 -0.0705" />
+
+  <xacro:property name="l_rotor_fl_vis_coll_orig_rpy" value="0 -0 0" />
+  <xacro:property name="l_rotor_fr_vis_coll_orig_rpy" value="0 -0 0" />
+  <xacro:property name="l_rotor_rl_vis_coll_orig_rpy" value="0 -0 0" />
+  <xacro:property name="l_rotor_rr_vis_coll_orig_rpy" value="0 -0 0" />
+
+  <xacro:property name="l_rotor_fl_mesh"
+    value="package://enph353-comp-drone/meshes/link_rotor_fl.stl" />
+  <xacro:property name="l_rotor_fr_mesh"
+    value="package://enph353-comp-drone/meshes/link_rotor_fr.stl" />
+  <xacro:property name="l_rotor_rl_mesh"
+    value="package://enph353-comp-drone/meshes/link_rotor_rl.stl" />
+  <xacro:property name="l_rotor_rr_mesh"
+    value="package://enph353-comp-drone/meshes/link_rotor_rr.stl" />
+
+
+  <xacro:property name="j_rotor_fr_orig_xyz" value="0 0 -0.02" />
+  <xacro:property name="j_rotor_fr_orig_rpy" value="3.14159 -0 0" />
+  <xacro:property name="j_rotor_fl_orig_xyz" value="0 0 -0.02" />
+  <xacro:property name="j_rotor_fl_orig_rpy" value="3.14159 -0 0" />
+  <xacro:property name="j_rotor_rr_orig_xyz" value="0 0 -0.02" />
+  <xacro:property name="j_rotor_rr_orig_rpy" value="3.14159 -0 0" />
+  <xacro:property name="j_rotor_rl_orig_xyz" value="0 -0 -0.02" />
+  <xacro:property name="j_rotor_rl_orig_rpy" value="3.14159 -0 -0.160013" />
+
+  <xacro:property name="j_rotor_fr_child_link" value="link_rotor_fr" />
+  <xacro:property name="j_rotor_fl_child_link" value="link_rotor_fl" />
+  <xacro:property name="j_rotor_rr_child_link" value="link_rotor_rr" />
+  <xacro:property name="j_rotor_rl_child_link" value="link_rotor_rl" />
+
+  <xacro:property name="j_rotor_fr_parent_link" value="link_motor_fr" />
+  <xacro:property name="j_rotor_fl_parent_link" value="link_motor_fl" />
+  <xacro:property name="j_rotor_rr_parent_link" value="link_motor_rr" />
+  <xacro:property name="j_rotor_rl_parent_link" value="link_motor_rl" />
+
+  <xacro:property name="j_rotor_joint_axis" value="0 0 1" />
+  <xacro:property name="j_rotor_lim_effort" value="10" />
+  <xacro:property name="j_rotor_lim_vel" value="10" />
+
+
+  <xacro:macro name="motor_link_joint"
+    params="location inert_xyz inert_rpy vis_xyz vis_rpy mesh child_orig_xyz child_orig_rpy">
+    <link name="link_motor_${location}">
+      <inertial>
+        <origin xyz="${inert_xyz}" rpy="${inert_rpy}" />
+        <mass value="${l_motor_mass}" />
+        <inertia ixx="${l_motor_ixx}" ixy="${l_motor_ixy}" ixz="${l_motor_ixz}" iyy="${l_motor_iyy}"
+          iyz="${l_motor_iyz}" izz="${l_motor_izz}" />
+      </inertial>
+      <visual>
+        <origin xyz="${vis_xyz}" rpy="${vis_rpy}" />
+        <geometry>
+          <mesh filename="${mesh}" />
+        </geometry>
+        <material name="link_motor_${location}_material">
+          <color rgba="${l_motor_color}" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="${vis_xyz}" rpy="${vis_rpy}" />
+        <geometry>
+          <mesh filename="${mesh}" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="joint_motor_${location}" type="fixed">
+      <origin xyz="${child_orig_xyz}" rpy="${child_orig_rpy}" />
+      <parent link="${j_motor_parent_link}" />
+      <child link="link_motor_${location}" />
+      <axis xyz="${j_motor_joint_axis}" />
+      <limit effort="${j_motor_lim_effort}" velocity="${j_motor_lim_vel}" />
+    </joint>
+  </xacro:macro>
+
+
+  <xacro:macro name="rotor_link_joint"
+    params="location inert_xyz inert_rpy vis_xyz vis_rpy mesh parent_link child_link orig_xyz orig_rpy">
+
+    <link name="link_rotor_${location}">
+      <inertial>
+        <origin xyz="${inert_xyz}" rpy="${inert_rpy}" />
+        <mass value="${l_rotor_mass}" />
+        <inertia ixx="${l_rotor_ixx}" ixy="${l_rotor_ixy}" ixz="${l_rotor_ixz}" iyy="${l_rotor_iyy}"
+          iyz="${l_rotor_iyz}" izz="${l_rotor_izz}" />
+      </inertial>
+      <visual>
+        <origin xyz="${vis_xyz}" rpy="${vis_rpy}" />
+        <geometry>
+          <mesh filename="${mesh}" />
+        </geometry>
+        <material name="link_rotor_${location}_material">
+          <color rgba="${l_rotor_color}" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="${vis_xyz}" rpy="${vis_rpy}" />
+        <geometry>
+          <mesh filename="${mesh}" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="joint_rotor_${location}" type="fixed">
+      <origin xyz="${orig_xyz}" rpy="${orig_rpy}" />
+      <parent link="${parent_link}" />
+      <child link="${child_link}" />
+      <axis xyz="${j_rotor_joint_axis}" />
+      <limit effort="${j_rotor_lim_effort}" velocity="${j_rotor_lim_vel}" />
+    </joint>
+
+    <gazebo reference="link_rotor_${location}">
+      <plugin name="rotor_${location}_thrust" filename="libgazebo_ros_force.so">
+        <updateRate>100.0</updateRate>
+        <robotNamespace>/</robotNamespace>
+        <bodyName>link_rotor_${location}</bodyName>
+        <topicName>rotor_${location}_thrust</topicName>
+        <broadcastTF>true</broadcastTF>
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:motor_link_joint
+    location="fl"
+    inert_xyz="${l_motor_fl_inert_orig_xyz}"
+    inert_rpy="${l_motor_fl_inert_orig_rpy}"
+    vis_xyz="${l_motor_fl_vis_coll_orig_xyz}"
+    vis_rpy="${l_motor_fl_vis_coll_orig_rpy}"
+    mesh="${l_motor_fl_mesh}"
+    child_orig_xyz="${j_motor_fl_orig_xyz}"
+    child_orig_rpy="${j_motor_fl_orig_rpy}" />
+
+  <xacro:motor_link_joint
+    location="fr"
+    inert_xyz="${l_motor_fr_inert_orig_xyz}"
+    inert_rpy="${l_motor_fr_inert_orig_rpy}"
+    vis_xyz="${l_motor_fr_vis_coll_orig_xyz}"
+    vis_rpy="${l_motor_fr_vis_coll_orig_rpy}"
+    mesh="${l_motor_fr_mesh}"
+    child_orig_xyz="${j_motor_fr_orig_xyz}"
+    child_orig_rpy="${j_motor_fr_orig_rpy}" />
+
+  <xacro:motor_link_joint
+    location="rl"
+    inert_xyz="${l_motor_rl_inert_orig_xyz}"
+    inert_rpy="${l_motor_rl_inert_orig_rpy}"
+    vis_xyz="${l_motor_rl_vis_coll_orig_xyz}"
+    vis_rpy="${l_motor_rl_vis_coll_orig_rpy}"
+    mesh="${l_motor_rl_mesh}"
+    child_orig_xyz="${j_motor_rl_orig_xyz}"
+    child_orig_rpy="${j_motor_rl_orig_rpy}" />
+
+  <xacro:motor_link_joint
+    location="rr"
+    inert_xyz="${l_motor_rr_inert_orig_xyz}"
+    inert_rpy="${l_motor_rr_inert_orig_rpy}"
+    vis_xyz="${l_motor_rr_vis_coll_orig_xyz}"
+    vis_rpy="${l_motor_rr_vis_coll_orig_rpy}"
+    mesh="${l_motor_rr_mesh}"
+    child_orig_xyz="${j_motor_rr_orig_xyz}"
+    child_orig_rpy="${j_motor_rr_orig_rpy}" />
+
+
+  <xacro:rotor_link_joint
+    location="fl"
+    inert_xyz="${l_rotor_fl_inert_orig_xyz}"
+    inert_rpy="${l_rotor_fl_inert_orig_rpy}"
+    vis_xyz="${l_rotor_fl_vis_coll_orig_xyz}"
+    vis_rpy="${l_rotor_fl_vis_coll_orig_rpy}"
+    mesh="${l_rotor_fl_mesh}"
+    parent_link="${j_rotor_fl_parent_link}"
+    child_link="${j_rotor_fl_child_link}"
+    orig_xyz="${j_rotor_fl_orig_xyz}"
+    orig_rpy="${j_rotor_fl_orig_rpy}" />
+
+  <xacro:rotor_link_joint
+    location="fr"
+    inert_xyz="${l_rotor_fr_inert_orig_xyz}"
+    inert_rpy="${l_rotor_fr_inert_orig_rpy}"
+    vis_xyz="${l_rotor_fr_vis_coll_orig_xyz}"
+    vis_rpy="${l_rotor_fr_vis_coll_orig_rpy}"
+    mesh="${l_rotor_fr_mesh}"
+    parent_link="${j_rotor_fr_parent_link}"
+    child_link="${j_rotor_fr_child_link}"
+    orig_xyz="${j_rotor_fr_orig_xyz}"
+    orig_rpy="${j_rotor_fr_orig_rpy}" />
+
+  <xacro:rotor_link_joint
+    location="rl"
+    inert_xyz="${l_rotor_rl_inert_orig_xyz}"
+    inert_rpy="${l_rotor_rl_inert_orig_rpy}"
+    vis_xyz="${l_rotor_rl_vis_coll_orig_xyz}"
+    vis_rpy="${l_rotor_rl_vis_coll_orig_rpy}"
+    mesh="${l_rotor_rl_mesh}"
+    parent_link="${j_rotor_rl_parent_link}"
+    child_link="${j_rotor_rl_child_link}"
+    orig_xyz="${j_rotor_rl_orig_xyz}"
+    orig_rpy="${j_rotor_rl_orig_rpy}" />
+
+  <xacro:rotor_link_joint
+    location="rr"
+    inert_xyz="${l_rotor_rr_inert_orig_xyz}"
+    inert_rpy="${l_rotor_rr_inert_orig_rpy}"
+    vis_xyz="${l_rotor_rr_vis_coll_orig_xyz}"
+    vis_rpy="${l_rotor_rr_vis_coll_orig_rpy}"
+    mesh="${l_rotor_rr_mesh}"
+    parent_link="${j_rotor_rr_parent_link}"
+    child_link="${j_rotor_rr_child_link}"
+    orig_xyz="${j_rotor_rr_orig_xyz}"
+    orig_rpy="${j_rotor_rr_orig_rpy}" />
+
+
+  <!-- Singleton Links and Joints from URDF -->
+
+  <link name="link_drone_body">
+    <inertial>
+      <origin xyz="-0.000926792 0.00067141 -0.00117611" rpy="0 0 0" />
+      <mass value="0.27585" />
+      <inertia ixx="0.000942851" ixy="-8.5525e-07" ixz="-2.499e-09" iyy="0.000944175"
+        iyz="1.878e-09" izz="0.0018689" />
+    </inertial>
+
+    <visual>
+      <origin xyz="-0.000969365 0.000643159 -0.0111761" rpy="0 -0 0" />
+      <geometry>
+        <mesh filename="package://enph353-comp-drone/meshes/link_drone_body.stl" />
+      </geometry>
+      <material name="link_drone_body_material">
+        <color rgba="1 0 0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.000969365 0.000643159 -0.0111761" rpy="0 -0 0" />
+      <geometry>
+        <mesh filename="package://enph353-comp-drone/meshes/link_drone_body.stl" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="link_imu">
+    <inertial>
+      <origin xyz="0 0 -0.0025" rpy="0 0 0" />
+      <mass value="0.01" />
+      <inertia ixx="1.04167e-07" ixy="0" ixz="0" iyy="1.04167e-07" iyz="0" izz="1.66667e-07" />
+    </inertial>
+
+    <visual>
+      <origin xyz="-0 -0 0" rpy="3.14159 -0 0" />
+      <geometry>
+        <mesh filename="package://enph353-comp-drone/meshes/link_imu.stl" />
+      </geometry>
+      <material name="link_imu_material">
+        <color rgba="0.980392 0.713725 0.00392157 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0 -0 0" rpy="3.14159 -0 0" />
+      <geometry>
+        <mesh filename="package://enph353-comp-drone/meshes/link_imu.stl" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="link_camera">
+    <inertial>
+      <origin xyz="-0 0 -0.005" rpy="0 0 0" />
+      <mass value="0.01" />
+      <inertia ixx="4.16667e-07" ixy="0" ixz="0" iyy="4.16667e-07" iyz="0" izz="6.66667e-07" />
+    </inertial>
+
+    <visual>
+      <origin xyz="-0 -0 -0" rpy="1.5708 -0 0" />
+      <geometry>
+        <mesh filename="package://enph353-comp-drone/meshes/link_camera.stl" />
+      </geometry>
+      <material name="link_camera_material">
+        <color rgba="0 0 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0 -0 -0" rpy="1.5708 -0 0" />
+      <geometry>
+        <mesh filename="package://enph353-comp-drone/meshes/link_camera.stl" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="joint_imu" type="fixed">
+    <origin xyz="-0.000969365 0.000643159 -0.00617609" rpy="3.14159 -0 0" />
+    <parent link="link_drone_body" />
+    <child link="link_imu" />
+    <axis xyz="0 0 1" />
+    <limit effort="10" velocity="10" />
+  </joint>
+
+  <joint name="joint_camera" type="fixed">
+    <origin xyz="-0.000969365 -0.0193568 -0.00117609" rpy="-0 0 -1.5708" />
+    <parent link="link_drone_body" />
+    <child link="link_camera" />
+    <axis xyz="0 0 1" />
+    <limit effort="10" velocity="10" />
+  </joint>
+
+  <!-- End of Extra Links and Joints -->
+
+  <gazebo reference="link_imu">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>imu</topicName>
+        <bodyName>link_imu</bodyName>
+        <updateRateHZ>100.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>link_imu</frameName>
+        <initialOrientationAsReference>false</initialOrientationAsReference>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="link_camera">
+    <sensor type="camera" name="camera1">
+      <update_rate>30.0</update_rate>
+      <camera name="head">
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>800</width>
+          <height>800</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>drone/camera1</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>link_camera</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="drone_manual_controller" filename="libgazebo_ros_planar_move.so">
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <odometryRate>20.0</odometryRate>
+      <robotBaseFrame>link_drone_body</robotBaseFrame>
+    </plugin>
+  </gazebo>
+</robot>
