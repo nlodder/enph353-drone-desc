@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>enph353-comp-drone</name>
+  <version>0.0.0</version>
+  <description>Competition drone for ENPH 353</description>
+  <maintainer email="nathan.lodder@proton.me">Nathan Lodder</maintainer>
+  <license>TODO</license>
+</package>

@@ -2,19 +2,32 @@
 # https://docs.python.org/3/library/xml.etree.elementtree.html
 from unittest import case
 import xml.etree.ElementTree as ET
+import os
 
 # Register namespace to prevent 'ns0' prefixes in output
 ET.register_namespace('xacro', 'http://www.ros.org/wiki/xacro')
 
+base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 # Load the template xacro file
-template_file_path = "/Users/nathanlodder/Documents/Academics/ACA-UBC/UBC-Classes/UBC-Courses-25_26/ACA-UBC-ENPH353/ENPH353-Comp/enph353-comp-drone/drone_xacro_template/drone_template.xacro"
+template_file_path = os.path.join(base_path, "urdf/drone_template.xacro")
 tree_template = ET.parse(template_file_path)
 root_template = tree_template.getroot()
 
 # import file data from onshape-to-drone call
-raw_file_path = "/Users/nathanlodder/Documents/Academics/ACA-UBC/UBC-Classes/UBC-Courses-25_26/ACA-UBC-ENPH353/ENPH353-Comp/enph353-comp-drone/onshape-to-urdf-raw/drone.urdf"
+raw_file_path = os.path.join(base_path, "cad_src/drone.urdf")
 tree_raw = ET.parse(raw_file_path)
 root_raw = tree_raw.getroot()
+
+# This updates paths from "link_name.stl" to "package://enph353-comp-drone/meshes/link_name.stl"
+package_name = "enph353-comp-drone"
+
+for mesh in root_raw.findall(".//mesh"):
+    filename = mesh.get('filename')
+    if filename and "package://" not in filename:
+        # Strip old path info if it exists and point to the new meshes folder
+        clean_name = os.path.basename(filename)
+        mesh.set('filename', f"package://{package_name}/meshes/{clean_name}")
 
 # This safely converts all names and link references to lowercase
 for elem in root_raw.iter():
@@ -29,7 +42,7 @@ def get_val(root, path, attrib, default=""):
         return el.get(attrib, default)
     return default
 
-print("--PROCESSING TEMPLATE XACRO FILE--")
+print(f"--PROCESSING: {raw_file_path}--")
 # define data extracted from template xacro file
 properties = {
     # MOTOR PROPERTIES - LINK
@@ -132,11 +145,13 @@ properties = {
     "j_rotor_lim_vel": get_val(root_raw, ".//joint[@name='joint_rotor_fr']/limit", "velocity", "1000")
 }
 
+# apply properties to template
 for prop in properties:
     for elem in root_template.iter():
         if elem.tag == f"{{http://www.ros.org/wiki/xacro}}property" and elem.attrib.get('name') == prop:
             elem.attrib['value'] = properties[prop]
 
+# Inserting singleton types after repeated types
 # 1. Identify which components to skip (the ones in macros)
 handled_keywords = ['motor', 'rotor']
 
@@ -170,5 +185,6 @@ newline_below.tail = "\n\n"
 root_template.insert(insertion_index + offset, newline_below)
 
 # 4. Save the final file
-output_path = "/Users/nathanlodder/Documents/Academics/ACA-UBC/UBC-Classes/UBC-Courses-25_26/ACA-UBC-ENPH353/ENPH353-Comp/enph353-comp-drone/drone.urdf.xacro"
+output_path = os.path.join(base_path, "urdf/drone.urdf.xacro")
+print(f"--SAVING TO: {output_path}--")
 tree_template.write(output_path, xml_declaration=True, encoding='utf-8')
