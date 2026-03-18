@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="drone">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="enph353-comp-drone">
 
 
   <xacro:property name="l_motor_fl_inert_orig_xyz" value="0 -0 -0.0101836" />
