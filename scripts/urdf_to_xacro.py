@@ -19,8 +19,8 @@ raw_file_path = os.path.join(base_path, "cad_src/drone.urdf")
 tree_raw = ET.parse(raw_file_path)
 root_raw = tree_raw.getroot()
 
-# This updates paths from "link_name.stl" to "package://enph353-comp-drone/meshes/link_name.stl"
-package_name = "enph353-comp-drone"
+# This updates paths from "link_name.stl" to "package://drone_desc/meshes/link_name.stl"
+package_name = "drone_desc"
 
 for mesh in root_raw.findall(".//mesh"):
     filename = mesh.get('filename')

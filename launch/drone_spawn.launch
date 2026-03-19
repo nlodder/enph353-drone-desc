@@ -1,6 +1,6 @@
 <launch>
 	<param name="robot_description"
-		command="$(find xacro)/xacro '$(find enph353-comp-drone)/urdf/drone.urdf.xacro'" />
+		command="$(find xacro)/xacro '$(find drone_desc)/urdf/drone.urdf.xacro'" />
 
 	<node name="spawn_robot" pkg="gazebo_ros" type="spawn_model"
 		args="-urdf -param robot_description -model drone -x 0 -y 0 -z 0.3"

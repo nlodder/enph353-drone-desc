@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="enph353-comp-drone">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="drone_desc">
 
 
   <xacro:property name="l_motor_fl_inert_orig_xyz" value="0 -0 -0.0101836" />
@@ -33,13 +33,13 @@
   <xacro:property name="l_motor_rr_vis_coll_orig_rpy" value="3.14159 -0 0" />
 
   <xacro:property name="l_motor_fl_mesh"
-    value="package://enph353-comp-drone/meshes/link_motor_fl.stl" />
+    value="package://drone_desc/meshes/link_motor_fl.stl" />
   <xacro:property name="l_motor_fr_mesh"
-    value="package://enph353-comp-drone/meshes/link_motor_fr.stl" />
+    value="package://drone_desc/meshes/link_motor_fr.stl" />
   <xacro:property name="l_motor_rl_mesh"
-    value="package://enph353-comp-drone/meshes/link_motor_rl.stl" />
+    value="package://drone_desc/meshes/link_motor_rl.stl" />
   <xacro:property name="l_motor_rr_mesh"
-    value="package://enph353-comp-drone/meshes/link_motor_rr.stl" />
+    value="package://drone_desc/meshes/link_motor_rr.stl" />
 
 
   <xacro:property name="j_motor_fr_orig_xyz" value="-0.0909694 -0.0893568 -0.0111761" />
@@ -93,13 +93,13 @@
   <xacro:property name="l_rotor_rr_vis_coll_orig_rpy" value="0 -0 0" />
 
   <xacro:property name="l_rotor_fl_mesh"
-    value="package://enph353-comp-drone/meshes/link_rotor_fl.stl" />
+    value="package://drone_desc/meshes/link_rotor_fl.stl" />
   <xacro:property name="l_rotor_fr_mesh"
-    value="package://enph353-comp-drone/meshes/link_rotor_fr.stl" />
+    value="package://drone_desc/meshes/link_rotor_fr.stl" />
   <xacro:property name="l_rotor_rl_mesh"
-    value="package://enph353-comp-drone/meshes/link_rotor_rl.stl" />
+    value="package://drone_desc/meshes/link_rotor_rl.stl" />
   <xacro:property name="l_rotor_rr_mesh"
-    value="package://enph353-comp-drone/meshes/link_rotor_rr.stl" />
+    value="package://drone_desc/meshes/link_rotor_rr.stl" />
 
 
   <xacro:property name="j_rotor_fr_orig_xyz" value="0 0 -0.02" />
@@ -311,7 +311,7 @@
     <visual>
       <origin xyz="-0.000969365 0.000643159 -0.0111761" rpy="0 -0 0" />
       <geometry>
-        <mesh filename="package://enph353-comp-drone/meshes/link_drone_body.stl" />
+        <mesh filename="package://drone_desc/meshes/link_drone_body.stl" />
       </geometry>
       <material name="link_drone_body_material">
         <color rgba="1 0 0 1" />
@@ -320,7 +320,7 @@
     <collision>
       <origin xyz="-0.000969365 0.000643159 -0.0111761" rpy="0 -0 0" />
       <geometry>
-        <mesh filename="package://enph353-comp-drone/meshes/link_drone_body.stl" />
+        <mesh filename="package://drone_desc/meshes/link_drone_body.stl" />
       </geometry>
     </collision>
   </link>
@@ -335,7 +335,7 @@
     <visual>
       <origin xyz="-0 -0 0" rpy="3.14159 -0 0" />
       <geometry>
-        <mesh filename="package://enph353-comp-drone/meshes/link_imu.stl" />
+        <mesh filename="package://drone_desc/meshes/link_imu.stl" />
       </geometry>
       <material name="link_imu_material">
         <color rgba="0.980392 0.713725 0.00392157 1" />
@@ -344,7 +344,7 @@
     <collision>
       <origin xyz="-0 -0 0" rpy="3.14159 -0 0" />
       <geometry>
-        <mesh filename="package://enph353-comp-drone/meshes/link_imu.stl" />
+        <mesh filename="package://drone_desc/meshes/link_imu.stl" />
       </geometry>
     </collision>
   </link>
@@ -359,7 +359,7 @@
     <visual>
       <origin xyz="-0 -0 -0" rpy="1.5708 -0 0" />
       <geometry>
-        <mesh filename="package://enph353-comp-drone/meshes/link_camera.stl" />
+        <mesh filename="package://drone_desc/meshes/link_camera.stl" />
       </geometry>
       <material name="link_camera_material">
         <color rgba="0 0 1 1" />
@@ -368,7 +368,7 @@
     <collision>
       <origin xyz="-0 -0 -0" rpy="1.5708 -0 0" />
       <geometry>
-        <mesh filename="package://enph353-comp-drone/meshes/link_camera.stl" />
+        <mesh filename="package://drone_desc/meshes/link_camera.stl" />
       </geometry>
     </collision>
   </link>
