@@ -5,16 +5,4 @@
 	<node name="spawn_robot" pkg="gazebo_ros" type="spawn_model"
 		args="-urdf -param robot_description -model drone -x 0 -y 0 -z 0.3"
 		output="screen" />
-
-	<node pkg="enph353-comp-drone"
-		type="drone.py"
-		name="drone_controller"
-		output="screen">
-	</node>
-
-	<node pkg="teleop_twist_keyboard"
-		type="teleop_twist_keyboard.py"
-		name="drone_manual_controller"
-		output="screen"
-		launch-prefix="xterm -e" />
 </launch>
