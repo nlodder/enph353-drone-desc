@@ -199,9 +199,9 @@
         </joint>
 
         <gazebo reference="${ns}link_rotor_${location}">
-            <plugin name="rotor_${location}_thrust" filename="libgazebo_ros_force.so">
+            <plugin name="${ns}rotor_${location}_thrust" filename="libgazebo_ros_force.so">
                 <updateRate>100.0</updateRate>
-                <robotNamespace>${arg name}</robotNamespace>
+                <robotNamespace>$(arg name)</robotNamespace>
                 <bodyName>${ns}link_rotor_${location}</bodyName>
                 <topicName>rotor_${location}_thrust</topicName>
                 <broadcastTF>true</broadcastTF>
