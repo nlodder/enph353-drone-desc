@@ -361,6 +361,7 @@
         </sensor>
     </gazebo>
 
+    <!-- plugin in case we want to control with camera -->
     <gazebo reference="link_camera">
         <sensor type="camera" name="camera1">
             <update_rate>30.0</update_rate>
@@ -377,7 +378,6 @@
                 </clip>
                 <noise>
                     <type>gaussian</type>
-
                     <mean>0.0</mean>
                     <stddev>0.007</stddev>
                 </noise>
@@ -399,11 +399,12 @@
         </sensor>
     </gazebo>
 
+    <!-- plugin for robot to fly by plane-->
     <gazebo>
-        <plugin name="drone_manual_controller" filename="libgazebo_ros_planar_move.so">
-            <commandTopic>cmd_vel</commandTopic>
-            <odometryTopic>odom</odometryTopic>
-            <odometryFrame>odom</odometryFrame>
+        <plugin name="drone_planar_mov" filename="libgazebo_ros_planar_move.so">
+            <commandTopic>planar_cmd</commandTopic>
+            <odometryTopic>"$(arg name)"/odom</odometryTopic>
+            <odometryFrame>"$(arg name)"/odom</odometryFrame>
             <odometryRate>20.0</odometryRate>
             <robotBaseFrame>link_drone_body</robotBaseFrame>
         </plugin>

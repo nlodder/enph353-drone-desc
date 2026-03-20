@@ -1,8 +1,15 @@
 <launch>
-	<param name="robot_description"
-		command="$(find xacro)/xacro '$(find drone_desc)/urdf/drone.urdf.xacro'" />
+	<arg name="x" default="0.0" />
+    <arg name="y" default="0.0" />
+    <arg name="z" default="0.5" />
+    <arg name="name" default="drone" />
 
 	<node name="spawn_robot" pkg="gazebo_ros" type="spawn_model"
-		args="-urdf -param robot_description -model drone -x 0 -y 0 -z 0.3"
+		args="-urdf -param robot_description -model $(arg name) -x $(arg x) -y $(arg y) -z $(arg z)"
 		output="screen" />
+	<!-- node to direct twist messages to the drone to their planar and vertical handlers -->
+	<node pkg="drone_desc" type="drone_cmd_bridge.py" name="drone_cmd_bridge" output="screen" /> 
+	
+	<!-- node to handle vertical movements not handled by planar movement plugin -->
+	<node pkg="drone_desc" type="drone_vert_mov.py" name="drone_vert_mov" output="screen" />
 </launch>
