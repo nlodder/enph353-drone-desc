@@ -175,7 +175,22 @@ for tag in ['link', 'joint']:
     for elem in root_raw.findall(tag):
         name = elem.get('name', '')
         if not any(kw in name for kw in handled_keywords):
-            print(f"Inserting singleton {tag}: {name}")
+            
+            # INJECT NAMESPACING FOR MULTIPLE ROBOTS DOWN THE LINE
+            # Prefix the element's own name
+            if 'name' in elem.attrib:
+                elem.set('name', f"${{ns}}{elem.attrib['name']}")
+            
+            # Prefix parent/child references in joints
+            if tag == 'joint':
+                child = elem.find('child')
+                parent = elem.find('parent')
+                if child is not None:
+                    child.set('link', f"${{ns}}{child.get('link')}")
+                if parent is not None:
+                    parent.set('link', f"${{ns}}{parent.get('link')}")
+
+            print(f"Inserting namespaced singleton {tag}: {elem.get('name')}")
             elem.tail = "\n\n"
             root_template.insert(insertion_index + offset, elem)
             offset += 1

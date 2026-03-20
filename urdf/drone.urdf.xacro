@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="drone">
+    <!-- this argument ('name') must be passed in the launch file when creating the drone from this file -->
+    <xacro:arg name="name" default="drone" />
+    <xacro:property name="ns" value="$(arg name)/" />
 
 
     <xacro:property name="l_motor_fl_inert_orig_xyz" value="0 -0 -0.0101836" />
@@ -120,7 +123,7 @@
 
     <xacro:macro name="motor_link_joint"
         params="location inert_xyz inert_rpy vis_xyz vis_rpy mesh child_orig_xyz child_orig_rpy">
-        <link name="link_motor_${location}">
+        <link name="${ns}link_motor_${location}">
             <inertial>
                 <origin xyz="${inert_xyz}" rpy="${inert_rpy}" />
                 <mass value="${l_motor_mass}" />
@@ -144,10 +147,10 @@
             </collision>
         </link>
 
-        <joint name="joint_motor_${location}" type="fixed">
+        <joint name="${ns}joint_motor_${location}" type="fixed">
             <origin xyz="${child_orig_xyz}" rpy="${child_orig_rpy}" />
-            <parent link="${j_motor_parent_link}" />
-            <child link="link_motor_${location}" />
+            <parent link="${ns}${j_motor_parent_link}" />
+            <child link="${ns}link_motor_${location}" />
             <axis xyz="${j_motor_joint_axis}" />
             <limit effort="${j_motor_lim_effort}" velocity="${j_motor_lim_vel}" />
         </joint>
@@ -157,7 +160,7 @@
     <xacro:macro name="rotor_link_joint"
         params="location inert_xyz inert_rpy vis_xyz vis_rpy mesh parent_link child_link orig_xyz orig_rpy">
 
-        <link name="link_rotor_${location}">
+        <link name="${ns}link_rotor_${location}">
             <inertial>
                 <origin xyz="${inert_xyz}" rpy="${inert_rpy}" />
                 <mass value="${l_rotor_mass}" />
@@ -181,26 +184,26 @@
             </collision>
         </link>
 
-        <joint name="joint_rotor_${location}" type="fixed">
+        <joint name="${ns}joint_rotor_${location}" type="fixed">
             <origin xyz="${orig_xyz}" rpy="${orig_rpy}" />
-            <parent link="${parent_link}" />
-            <child link="${child_link}" />
+            <parent link="${ns}${parent_link}" />
+            <child link="${ns}${child_link}" />
             <axis xyz="${j_rotor_joint_axis}" />
             <limit effort="${j_rotor_lim_effort}" velocity="${j_rotor_lim_vel}" />
         </joint>
 
-        <gazebo reference="link_rotor_${location}">
+        <gazebo reference="${ns}link_rotor_${location}">
             <plugin name="rotor_${location}_thrust" filename="libgazebo_ros_force.so">
                 <updateRate>100.0</updateRate>
-                <robotNamespace>/</robotNamespace>
-                <bodyName>link_rotor_${location}</bodyName>
+                <robotNamespace>${arg name}</robotNamespace>
+                <bodyName>${ns}link_rotor_${location}</bodyName>
                 <topicName>rotor_${location}_thrust</topicName>
                 <broadcastTF>true</broadcastTF>
             </plugin>
         </gazebo>
     </xacro:macro>
 
-
+    <!-- MOTOR JOINTS -->
     <xacro:motor_link_joint location="fl" inert_xyz="${l_motor_fl_inert_orig_xyz}"
         inert_rpy="${l_motor_fl_inert_orig_rpy}" vis_xyz="${l_motor_fl_vis_coll_orig_xyz}"
         vis_rpy="${l_motor_fl_vis_coll_orig_rpy}" mesh="${l_motor_fl_mesh}"
@@ -222,6 +225,7 @@
         child_orig_xyz="${j_motor_rr_orig_xyz}" child_orig_rpy="${j_motor_rr_orig_rpy}" />
 
 
+    <!-- ROTOR JOINTS-->
     <xacro:rotor_link_joint location="fl" inert_xyz="${l_rotor_fl_inert_orig_xyz}"
         inert_rpy="${l_rotor_fl_inert_orig_rpy}" vis_xyz="${l_rotor_fl_vis_coll_orig_xyz}"
         vis_rpy="${l_rotor_fl_vis_coll_orig_rpy}" mesh="${l_rotor_fl_mesh}"
@@ -248,15 +252,13 @@
 
 
     <!-- Singleton Links and Joints from URDF -->
-
-    <link name="link_drone_body">
+    <link name="${ns}link_drone_body">
         <inertial>
             <origin xyz="-0.000304819 -3.77332e-05 0.00999998" rpy="0 0 0" />
             <mass value="0.27585" />
             <inertia ixx="0.000944175" ixy="8.5525e-07" ixz="-1.878e-09" iyy="0.000942851"
                 iyz="-2.499e-09" izz="0.0018689" />
         </inertial>
-
         <visual>
             <origin xyz="-0.000276567 -8.03059e-05 0" rpy="0 -0 1.5708" />
             <geometry>
@@ -274,13 +276,12 @@
         </collision>
     </link>
 
-    <link name="link_imu">
+    <link name="${ns}link_imu">
         <inertial>
             <origin xyz="0 0 -0.0025" rpy="0 0 0" />
             <mass value="0.01" />
             <inertia ixx="1.04167e-07" ixy="0" ixz="0" iyy="1.04167e-07" iyz="0" izz="1.66667e-07" />
         </inertial>
-
         <visual>
             <origin xyz="-0 -0 0" rpy="3.14159 -0 0" />
             <geometry>
@@ -298,13 +299,12 @@
         </collision>
     </link>
 
-    <link name="link_camera">
+    <link name="${ns}link_camera">
         <inertial>
             <origin xyz="-0 0 -0.005" rpy="0 0 0" />
             <mass value="0.01" />
             <inertia ixx="4.16667e-07" ixy="0" ixz="0" iyy="4.16667e-07" iyz="0" izz="6.66667e-07" />
         </inertial>
-
         <visual>
             <origin xyz="-0 0 0" rpy="1.5708 -0 0" />
             <geometry>
@@ -322,39 +322,39 @@
         </collision>
     </link>
 
-    <joint name="joint_imu" type="fixed">
+    <joint name="${ns}joint_imu" type="fixed">
         <origin xyz="-0.000276567 -8.03059e-05 0.005" rpy="3.14159 -0 1.5708" />
-        <parent link="link_drone_body" />
-        <child link="link_imu" />
+        <parent link="${ns}link_drone_body" />
+        <child link="${ns}link_imu" />
         <axis xyz="0 0 1" />
         <limit effort="10" velocity="10" />
     </joint>
 
-    <joint name="joint_camera" type="fixed">
+    <joint name="${ns}joint_camera" type="fixed">
         <origin xyz="0.0197234 -8.03059e-05 0.02" rpy="-0 -0 -0" />
-        <parent link="link_drone_body" />
-        <child link="link_camera" />
+        <parent link="${ns}link_drone_body" />
+        <child link="${ns}link_camera" />
         <axis xyz="0 0 1" />
         <limit effort="10" velocity="10" />
     </joint>
 
     <!-- End of Extra Links and Joints -->
 
-    <gazebo reference="link_imu">
+    <gazebo reference="${ns}link_imu">
         <gravity>true</gravity>
-        <sensor name="imu_sensor" type="imu">
+        <sensor name="${ns}imu_sensor" type="imu">
             <always_on>true</always_on>
             <update_rate>100</update_rate>
             <visualize>true</visualize>
             <topic>__default_topic__</topic>
-            <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
-                <topicName>imu</topicName>
-                <bodyName>link_imu</bodyName>
+            <plugin filename="libgazebo_ros_imu_sensor.so" name="${ns}imu_plugin">
+                <topicName>imu</topicName> <!-- inherits namespace, doesn't need ${ns} -->
+                <bodyName>${ns}link_imu</bodyName>
                 <updateRateHZ>100.0</updateRateHZ>
                 <gaussianNoise>0.0</gaussianNoise>
                 <xyzOffset>0 0 0</xyzOffset>
                 <rpyOffset>0 0 0</rpyOffset>
-                <frameName>link_imu</frameName>
+                <frameName>${ns}link_imu</frameName>
                 <initialOrientationAsReference>false</initialOrientationAsReference>
             </plugin>
             <pose>0 0 0 0 0 0</pose>
@@ -362,8 +362,8 @@
     </gazebo>
 
     <!-- plugin in case we want to control with camera -->
-    <gazebo reference="link_camera">
-        <sensor type="camera" name="camera1">
+    <gazebo reference="${ns}link_camera">
+        <sensor type="camera" name="${ns}camera1">
             <update_rate>30.0</update_rate>
             <camera name="head">
                 <horizontal_fov>1.3962634</horizontal_fov>
@@ -385,10 +385,10 @@
             <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
                 <alwaysOn>true</alwaysOn>
                 <updateRate>0.0</updateRate>
-                <cameraName>drone/camera1</cameraName>
+                <cameraName>${ns}camera1</cameraName>
                 <imageTopicName>image_raw</imageTopicName>
                 <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-                <frameName>link_camera</frameName>
+                <frameName>${ns}link_camera</frameName>
                 <hackBaseline>0.07</hackBaseline>
                 <distortionK1>0.0</distortionK1>
                 <distortionK2>0.0</distortionK2>
@@ -403,10 +403,10 @@
     <gazebo>
         <plugin name="drone_planar_mov" filename="libgazebo_ros_planar_move.so">
             <commandTopic>planar_cmd</commandTopic>
-            <odometryTopic>"$(arg name)"/odom</odometryTopic>
-            <odometryFrame>"$(arg name)"/odom</odometryFrame>
+            <odometryTopic>${ns}odom</odometryTopic>
+            <odometryFrame>${ns}odom</odometryFrame>
             <odometryRate>20.0</odometryRate>
-            <robotBaseFrame>link_drone_body</robotBaseFrame>
+            <robotBaseFrame>${ns}link_drone_body</robotBaseFrame>
         </plugin>
     </gazebo>
 </robot>

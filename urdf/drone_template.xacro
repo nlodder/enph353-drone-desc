@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <robot name="drone" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:arg name="name" default="drone" />
+    <xacro:property name="ns" value="$(arg name)/" />
+    
     <!-- MOTOR PROPERTIES -->
     <!-- MOTOR PROPERTIES - LINK -->
     <xacro:property name="l_motor_fl_inert_orig_xyz" value="" />
@@ -124,7 +127,7 @@
     <!-- MACROS - MOTORS -->
     <xacro:macro name="motor_link_joint"
         params="location inert_xyz inert_rpy vis_xyz vis_rpy mesh child_orig_xyz child_orig_rpy">
-        <link name="link_motor_${location}">
+        <link name="${ns}link_motor_${location}">
             <inertial>
                 <origin xyz="${inert_xyz}" rpy="${inert_rpy}" />
                 <mass value="${l_motor_mass}" />
@@ -149,10 +152,10 @@
             </collision>
         </link>
 
-        <joint name="joint_motor_${location}" type="fixed">
+        <joint name="${ns}joint_motor_${location}" type="fixed">
             <origin xyz="${child_orig_xyz}" rpy="${child_orig_rpy}" />
-            <parent link="${j_motor_parent_link}" />
-            <child link="link_motor_${location}" />
+            <parent link="${ns}${j_motor_parent_link}" />
+            <child link="${ns}link_motor_${location}" />
             <axis xyz="${j_motor_joint_axis}" />
             <limit effort="${j_motor_lim_effort}" velocity="${j_motor_lim_vel}" />
         </joint>
@@ -162,7 +165,7 @@
     <xacro:macro name="rotor_link_joint"
         params="location inert_xyz inert_rpy vis_xyz vis_rpy mesh parent_link child_link orig_xyz orig_rpy">
 
-        <link name="link_rotor_${location}">
+        <link name="${ns}link_rotor_${location}">
             <inertial>
                 <origin xyz="${inert_xyz}" rpy="${inert_rpy}" />
                 <mass value="${l_rotor_mass}" />
@@ -187,19 +190,19 @@
             </collision>
         </link>
 
-        <joint name="joint_rotor_${location}" type="fixed">
+        <joint name="${ns}joint_rotor_${location}" type="fixed">
             <origin xyz="${orig_xyz}" rpy="${orig_rpy}" />
-            <parent link="${parent_link}" />
-            <child link="${child_link}" />
+            <parent link="${ns}${parent_link}" />
+            <child link="${ns}${child_link}" />
             <axis xyz="${j_rotor_joint_axis}" />
             <limit effort="${j_rotor_lim_effort}" velocity="${j_rotor_lim_vel}" />
         </joint>
 
-        <gazebo reference="link_rotor_${location}">
+        <gazebo reference="${ns}link_rotor_${location}">
             <plugin name="rotor_${location}_thrust" filename="libgazebo_ros_force.so">
                 <updateRate>100.0</updateRate>
-                <robotNamespace>/</robotNamespace>
-                <bodyName>link_rotor_${location}</bodyName>
+                <robotNamespace>${arg name}</robotNamespace>
+                <bodyName>${ns}link_rotor_${location}</bodyName>
                 <topicName>rotor_${location}_thrust</topicName>
                 <broadcastTF>true</broadcastTF>
             </plugin>
@@ -299,29 +302,29 @@
         orig_rpy="${j_rotor_rr_orig_rpy}" />
 
 
-    <gazebo reference="link_imu">
+    <gazebo reference="${ns}link_imu">
         <gravity>true</gravity>
-        <sensor name="imu_sensor" type="imu">
+        <sensor name="${ns}imu_sensor" type="imu">
             <always_on>true</always_on>
             <update_rate>100</update_rate>
             <visualize>true</visualize>
             <topic>__default_topic__</topic>
-            <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+            <plugin filename="libgazebo_ros_imu_sensor.so" name="${ns}imu_plugin">
                 <topicName>imu</topicName>
-                <bodyName>link_imu</bodyName>
+                <bodyName>${ns}link_imu</bodyName>
                 <updateRateHZ>100.0</updateRateHZ>
                 <gaussianNoise>0.0</gaussianNoise>
                 <xyzOffset>0 0 0</xyzOffset>
                 <rpyOffset>0 0 0</rpyOffset>
-                <frameName>link_imu</frameName>
+                <frameName>${ns}link_imu</frameName>
                 <initialOrientationAsReference>false</initialOrientationAsReference>
             </plugin>
             <pose>0 0 0 0 0 0</pose>
         </sensor>
     </gazebo>
 
-    <gazebo reference="link_camera">
-        <sensor type="camera" name="camera1">
+    <gazebo reference="${ns}link_camera">
+        <sensor type="camera" name="${ns}camera1">
             <update_rate>30.0</update_rate>
             <camera name="head">
                 <horizontal_fov>1.3962634</horizontal_fov>
@@ -346,10 +349,10 @@
             <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
                 <alwaysOn>true</alwaysOn>
                 <updateRate>0.0</updateRate>
-                <cameraName>drone/camera1</cameraName>
+                <cameraName>${ns}camera1</cameraName>
                 <imageTopicName>image_raw</imageTopicName>
                 <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-                <frameName>link_camera</frameName>
+                <frameName>${ns}link_camera</frameName>
                 <hackBaseline>0.07</hackBaseline>
                 <distortionK1>0.0</distortionK1>
                 <distortionK2>0.0</distortionK2>
@@ -363,10 +366,10 @@
     <gazebo>
         <plugin name="drone_manual_controller" filename="libgazebo_ros_planar_move.so">
             <commandTopic>cmd_vel</commandTopic>
-            <odometryTopic>odom</odometryTopic>
-            <odometryFrame>odom</odometryFrame>
+            <odometryTopic>${ns}odom</odometryTopic>
+            <odometryFrame>${ns}odom</odometryFrame>
             <odometryRate>20.0</odometryRate>
-            <robotBaseFrame>link_drone_body</robotBaseFrame>
+            <robotBaseFrame>${ns}link_drone_body</robotBaseFrame>
         </plugin>
     </gazebo>
 </robot>
