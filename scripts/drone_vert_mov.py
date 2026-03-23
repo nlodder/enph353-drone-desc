@@ -26,7 +26,7 @@ class DroneVertMv:
             wrench.force = Vector3(0, 0, self.HOVER_FORCE + linear_vel_z.data * self.FORCE_SCALE)
             
             # Apply it to the body link
-            rospy.loginfo(f"Vertical Force: {wrench.force}, Hover Force: {self.HOVER_FORCE}")
+            # rospy.loginfo(f"Vertical Force: {wrench.force}, Hover Force: {self.HOVER_FORCE}")
             apply_wrench(body_name=f"{self.ns}::link_drone_body", wrench=wrench, duration=rospy.Duration(0.1))
         except rospy.ServiceException as e:
             print("Service call failed: %s"%e)
