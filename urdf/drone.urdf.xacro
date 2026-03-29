@@ -386,7 +386,7 @@
     </joint>
 
     <joint name="joint_down_camera" type="fixed">
-        <origin xyz="0.0 0.0 -0.01" rpy="-0 1.5708 -0" />
+        <origin xyz="0.01 0.0 -0.01" rpy="-0 1.5708 -0" />
         <parent link="link_drone_body" />
         <child link="link_down_camera" />
     </joint>
@@ -526,7 +526,7 @@
             </noise>
         </ray>
         <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
-            <topicName>/rrbot/laser/scan</topicName>
+            <topicName>down_laser/scan</topicName>
             <frameName>hokuyo_link</frameName>
         </plugin>
         </sensor>
