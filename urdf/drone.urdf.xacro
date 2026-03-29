@@ -322,6 +322,29 @@
         </collision>
     </link>
 
+    <link name="link_down_camera">
+        <inertial>
+            <origin xyz="-0 0 -0.0" rpy="0 0 0" />
+            <mass value="0.01" />
+            <inertia ixx="4.16667e-07" ixy="0" ixz="0" iyy="4.16667e-07" iyz="0" izz="6.66667e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="-0 0 0" rpy="1.5708 -0 0" />
+            <geometry>
+                <mesh filename="package://drone_desc/meshes/link_camera.stl" />
+            </geometry>
+            <material name="link_camera_material">
+                <color rgba="0 0 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0 0 0" rpy="1.5708 -0 0" />
+            <geometry>
+                <mesh filename="package://drone_desc/meshes/link_camera.stl" />
+            </geometry>
+        </collision>
+    </link>
+
     <joint name="joint_imu" type="fixed">
         <origin xyz="-0.000276567 -8.03059e-05 0.005" rpy="3.14159 -0 1.5708" />
         <parent link="link_drone_body" />
@@ -334,8 +357,12 @@
         <origin xyz="0.0197234 -8.03059e-05 0.02" rpy="-0 -0 -0" />
         <parent link="link_drone_body" />
         <child link="link_camera" />
-        <axis xyz="0 0 1" />
-        <limit effort="10" velocity="10" />
+    </joint>
+
+    <joint name="joint_down_camera" type="fixed">
+        <origin xyz="0.0 0.0 -0.01" rpy="-0 1.5708 -0" />
+        <parent link="link_drone_body" />
+        <child link="link_down_camera" />
     </joint>
 
     <!-- End of Extra Links and Joints -->
@@ -365,7 +392,7 @@
     <gazebo reference="link_camera">
         <sensor type="camera" name="camera1">
             <update_rate>30.0</update_rate>
-            <camera name="head">
+            <camera name="front_cam">
                 <horizontal_fov>1.3962634</horizontal_fov>
                 <image>
                     <width>800</width>
@@ -382,7 +409,7 @@
                     <stddev>0.007</stddev>
                 </noise>
             </camera>
-            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+            <plugin name="front_cam" filename="libgazebo_ros_camera.so">
                 <alwaysOn>true</alwaysOn>
                 <updateRate>0.0</updateRate>
                 <cameraName>camera1</cameraName>
@@ -399,7 +426,44 @@
         </sensor>
     </gazebo>
 
-    <!-- plugin for robot to fly by plane-->
+    <gazebo reference="link_down_camera">
+        <sensor type="camera" name="camera2">
+            <update_rate>30.0</update_rate>
+            <camera name="down_cam">
+                <horizontal_fov>1.3962634</horizontal_fov>
+                <image>
+                    <width>800</width>
+                    <height>800</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.02</near>
+                    <far>300</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            </camera>
+            <plugin name="down_cam" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>camera2</cameraName>
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>link_down_camera</frameName>
+                <hackBaseline>0.07</hackBaseline>
+                <distortionK1>0.0</distortionK1>
+                <distortionK2>0.0</distortionK2>
+                <distortionK3>0.0</distortionK3>
+                <distortionT1>0.0</distortionT1>
+                <distortionT2>0.0</distortionT2>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+    <!-- plugin for robot to fly by plane -->
     <gazebo>
         <plugin name="drone_planar_mov" filename="libgazebo_ros_planar_move.so">
             <commandTopic>planar_cmd</commandTopic>
