@@ -542,4 +542,21 @@
             <robotBaseFrame>link_drone_body</robotBaseFrame>
         </plugin>
     </gazebo>
+
+    <!-- enable WIND effects on the drone -->
+    <gazebo reference="link_drone_body">
+        <enable_wind>true</enable_wind>
+    </gazebo>
+    <gazebo reference="link_rotor_fl">
+        <enable_wind>true</enable_wind>
+    </gazebo>
+    <gazebo reference="link_rotor_fr">
+        <enable_wind>true</enable_wind>
+    </gazebo>
+    <gazebo reference="link_rotor_rl">
+        <enable_wind>true</enable_wind>
+    </gazebo>
+    <gazebo reference="link_rotor_rr">
+        <enable_wind>true</enable_wind>
+    </gazebo>
 </robot>
