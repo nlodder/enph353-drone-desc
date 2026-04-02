@@ -398,7 +398,7 @@
     </joint>
 
     <!-- End of Extra Links and Joints -->
-
+    <!-- PLUGINS -->
     <gazebo reference="link_imu">
         <gravity>true</gravity>
         <sensor name="imu_sensor" type="imu">
@@ -532,14 +532,12 @@
         </sensor>
     </gazebo>
 
-    <!-- plugin for robot to fly by plane -->
+    <!-- plugin for robot to fly plane -->
     <gazebo>
-        <plugin name="drone_planar_mov" filename="libgazebo_ros_planar_move.so">
-            <commandTopic>planar_cmd</commandTopic>
-            <odometryTopic>odom</odometryTopic>
-            <odometryFrame>odom</odometryFrame>
-            <odometryRate>20.0</odometryRate>
-            <robotBaseFrame>link_drone_body</robotBaseFrame>
+        <plugin name="drone_mov" filename="libgazebo_ros_force.so">
+            <!-- <robotNamespace>/thing</robotNamespace> -->
+            <bodyName>link_drone_body</bodyName>
+            <topicName>cmd_force</topicName>
         </plugin>
     </gazebo>
 
