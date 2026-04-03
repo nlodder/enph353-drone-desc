@@ -372,11 +372,9 @@
     </link>
 
     <joint name="joint_imu" type="fixed">
-        <origin xyz="-0.000276567 -8.03059e-05 0.005" rpy="3.14159 -0 1.5708" />
+        <origin xyz="0 0 0.005" rpy="0 0 0" />
         <parent link="link_drone_body" />
         <child link="link_imu" />
-        <axis xyz="0 0 1" />
-        <limit effort="10" velocity="10" />
     </joint>
 
     <joint name="joint_camera" type="fixed">
@@ -532,11 +530,11 @@
         </sensor>
     </gazebo>
 
-    <!-- plugin for robot to fly plane -->
+    <!-- plugin for robot to fly -->
     <gazebo>
         <plugin name="drone_mov" filename="libgazebo_ros_force.so">
-            <!-- <robotNamespace>/thing</robotNamespace> -->
-            <bodyName>link_drone_body</bodyName>
+            <robotNamespace>$(arg name)</robotNamespace>
+            <bodyName>$(arg name)::link_drone_body</bodyName>
             <topicName>cmd_force</topicName>
         </plugin>
     </gazebo>
