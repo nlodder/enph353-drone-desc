@@ -17,19 +17,28 @@ class DroneCmdBridge:
         """
         rospy.init_node('drone_cmd_bridge')
         
+        # subscribe to drone's cmd_vel topic
+        rospy.Subscriber("cmd_vel", Twist, self.vel_callback)
+        rospy.Subscriber("imu", Imu, self.imu_callback)
+        rospy.Subscriber("altitude", Float64, self.altitude_callback)
+        rospy.Subscriber("rp_stabilizer_wrench", Wrench, self.rp_stabilizer_callback)
+        rospy.Subscriber("abs_z_target", Float64, self.abs_z_target_callback) # for receiving absolute altitude targets if desired        
+        
         self.ns = rospy.get_namespace().strip('/')
         self.target_body = f"{self.ns}::link_drone_body"
 
         gravity = self.get_gazebo_gravity()
         total_mass = self.get_total_mass()
         self.HOVER_FORCE = gravity * total_mass
-        self.FORCE_SCALE = 1.0
+        self.FORCE_SCALE = 3.0
+        self.TORQUE_SCALE = 0.1
 
         # PID for altitude stabilization
-        self.elev_PID = ElevPIDController(kp=1.0, ki=0.15, kd=0.2)
-        self.desired_z = 1.0 # desired altitude in meters
-        self.current_z = 1.0 # current altitude in meters, updated from Gazebo
-
+        self.elev_PID = ElevPIDController(kp=2.1, ki=0.2, kd=0.5)
+        self.desired_z = 8 # desired altitude in meters
+        self.current_z = 0.1 # current altitude in meters, updated from Gazebo
+        self.desired_abs_z = -1.0 # if set to a positive value, this will override desired_z and the drone will try to maintain this absolute altitude instead of adjusting based on cmd_vel vertical component
+        
         self.UPDATE_HZ = 30
         self.DUR_BUFFER = rospy.Duration(1.5 / self.UPDATE_HZ) # force applied for update period
 
@@ -37,12 +46,16 @@ class DroneCmdBridge:
         self.current_wrench.force.z = self.HOVER_FORCE
         self.apply_wrench = rospy.ServiceProxy('/gazebo/apply_body_wrench', ApplyBodyWrench)
 
-        # subscribe to drone's cmd_vel topic
-        rospy.Subscriber("cmd_vel", Twist, self.vel_callback)
-        rospy.Subscriber("imu", Imu, self.imu_callback)
-        rospy.Subscriber("altitude", Float64, self.altitude_callback)
-        rospy.Subscriber("rp_stabilizer_wrench", Wrench, self.rp_stabilizer_callback)
-        
+
+        rospy.sleep(0.5)
+    
+    def abs_z_target_callback(self, msg):
+        """
+            Updates the desired absolute altitude target for the drone.
+        """
+        self.desired_abs_z = msg.data
+        self.desired_z = self.desired_abs_z
+        return
     
     def vel_callback(self, msg):
         """
@@ -51,11 +64,18 @@ class DroneCmdBridge:
             - The linear x and y components of the cmd_vel are scaled and set as forces in the current wrench.
             - The linear z component of the cmd_vel is used to adjust the desired altitude (self.desired_z)
         """
-        self.desired_z += msg.linear.z  # Update desired altitude
+        # if we do not have an absolute elevation target, we can use the vertical component of cmd_vel to adjust our desired altitude
+        if self.desired_abs_z < 0:    
+            self.desired_z += msg.linear.z  # Update desired altitude
+        else:
+            self.desired_z = self.desired_abs_z # if we have an absolute elevation target, ignore vertical component of cmd_vel and just use the absolute target
+        
         self.desired_z = max(0.1, self.desired_z)  # Prevent going below ground level
 
         self.current_wrench.force.x = msg.linear.x * self.FORCE_SCALE
         self.current_wrench.force.y = msg.linear.y * self.FORCE_SCALE
+        self.current_wrench.torque.z = msg.angular.z * self.TORQUE_SCALE
+        return
 
     def imu_callback(self, msg):
         return
@@ -67,10 +87,10 @@ class DroneCmdBridge:
 
     def rp_stabilizer_callback(self, msg):
         """
-        Updates the current wrench's torque components based on the incoming roll/pitch stabilization wrench message.
-        - msg: geometry_msgs/Wrench message containing the torques needed for roll and pitch stabilization
-        - The torque x and y components from the message are set as the current wrench's torque components for
-        roll and pitch stabilization. The z torque is ignored as we are not stabilizing yaw.
+            Updates the current wrench's torque components based on the incoming roll/pitch stabilization wrench message.
+            - msg: geometry_msgs/Wrench message containing the torques needed for roll and pitch stabilization
+            - The torque x and y components from the message are set as the current wrench's torque components for
+            roll and pitch stabilization. The z torque is ignored as we are not stabilizing yaw.
         """
         self.current_wrench.torque.x = msg.torque.x
         self.current_wrench.torque.y = msg.torque.y
@@ -94,7 +114,7 @@ class DroneCmdBridge:
             
             try:
                 self.apply_wrench(body_name=self.target_body,
-                                  reference_frame=self.target_body, # so that force applied in drone frame
+                                  reference_frame='', # so that force applied in drone frame
                                   wrench=self.current_wrench,
                                   duration=self.DUR_BUFFER)
             except rospy.ServiceException as e:
