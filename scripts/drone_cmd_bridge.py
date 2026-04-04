@@ -34,7 +34,7 @@ class DroneCmdBridge:
         self.TORQUE_SCALE = 0.1
 
         # PID for altitude stabilization
-        self.elev_PID = ElevPIDController(kp=2.1, ki=0.2, kd=0.5)
+        self.elev_PID = ElevPIDController(kp=2.1, ki=0.01, kd=1.2)
         self.desired_z = 8 # desired altitude in meters
         self.current_z = 0.1 # current altitude in meters, updated from Gazebo
         self.desired_abs_z = -1.0 # if set to a positive value, this will override desired_z and the drone will try to maintain this absolute altitude instead of adjusting based on cmd_vel vertical component
