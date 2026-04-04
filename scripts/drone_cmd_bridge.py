@@ -6,8 +6,6 @@ from sensor_msgs.msg import Imu
 from gazebo_msgs.srv import GetPhysicsProperties
 from gazebo_msgs.srv import ApplyBodyWrench
 import xml.etree.ElementTree as ET #to parse urdf for mass data 
-import tf
-import math
 
 class DroneCmdBridge:
     def __init__(self):
@@ -26,12 +24,8 @@ class DroneCmdBridge:
         total_mass = self.get_total_mass()
         self.HOVER_FORCE = gravity * total_mass
         self.FORCE_SCALE = 1.0
-        
-        # PID for angular stabilization
-        self.pitch_PID = StabilizePIDController(kp=0.7, ki=0.4, kd=0.2)
-        self.roll_PID = StabilizePIDController(kp=0.7, ki=0.4, kd=0.2)
-        self.target_euler = [0, 0] # target roll and pitch in radians
 
+        # PID for altitude stabilization
         self.elev_PID = ElevPIDController(kp=1.0, ki=0.15, kd=0.2)
         self.desired_z = 1.0 # desired altitude in meters
         self.current_z = 1.0 # current altitude in meters, updated from Gazebo
@@ -47,6 +41,7 @@ class DroneCmdBridge:
         rospy.Subscriber("cmd_vel", Twist, self.vel_callback)
         rospy.Subscriber("imu", Imu, self.imu_callback)
         rospy.Subscriber("altitude", Float64, self.altitude_callback)
+        rospy.Subscriber("rp_stabilizer_wrench", Wrench, self.rp_stabilizer_callback)
         
     
     def vel_callback(self, msg):
@@ -63,24 +58,23 @@ class DroneCmdBridge:
         self.current_wrench.force.y = msg.linear.y * self.FORCE_SCALE
 
     def imu_callback(self, msg):
-        """Updates the current orientation of the drone and computes the necessary torques to stabilize roll and pitch angles."""
-        # get orientation from the IMU message as a quaternion
-        # this is the orientation of the drone in the world frame
-        quaternion = [msg.orientation.x, msg.orientation.y, msg.orientation.z, msg.orientation.w]
-        roll, pitch, yaw = tf.transformations.euler_from_quaternion(quaternion) # convert to radians
-
-        torque_roll = self.roll_PID.update(self.target_euler[0], roll, 1.0 / self.UPDATE_HZ)
-        torque_pitch = self.pitch_PID.update(self.target_euler[1], pitch, 1.0 / self.UPDATE_HZ)
-
-        # PD for angular stabilization
-        self.current_wrench.torque.x = torque_roll
-        self.current_wrench.torque.y = torque_pitch
-        self.current_wrench.torque.z = 0  # No stabilization needed for yaw
-        # self.show_pattern(quaternion, euler, error_roll, error_pitch)
+        return
 
     def altitude_callback(self, msg):
         """Updates the current altitude of the drone (self.current_z)"""
         self.current_z = msg.data
+        return
+
+    def rp_stabilizer_callback(self, msg):
+        """
+        Updates the current wrench's torque components based on the incoming roll/pitch stabilization wrench message.
+        - msg: geometry_msgs/Wrench message containing the torques needed for roll and pitch stabilization
+        - The torque x and y components from the message are set as the current wrench's torque components for
+        roll and pitch stabilization. The z torque is ignored as we are not stabilizing yaw.
+        """
+        self.current_wrench.torque.x = msg.torque.x
+        self.current_wrench.torque.y = msg.torque.y
+        return
 
     def run(self):
         """
@@ -91,7 +85,6 @@ class DroneCmdBridge:
             - Catches any service exceptions and logs them.
         """
         rate = rospy.Rate(self.UPDATE_HZ)
-
 
         while not rospy.is_shutdown():
             # update vertical force based on altitude error using PID
@@ -164,33 +157,6 @@ class DroneCmdBridge:
         pattern += f"Error Roll: {error_roll:.2f} | Error Pitch: {error_pitch:.2f}"
         rospy.loginfo(pattern)
 
-class StabilizePIDController:
-    """Simple PID controller for stabilizing roll and pitch angles."""
-    def __init__(self, kp, ki, kd):
-        self.kp = kp
-        self.ki = ki
-        self.kd = kd
-        self.previous_error = 0
-        self.integral = 0
-    
-    def update(self, target_rad, current_rad, dt):
-        """
-        Simple PID controller to stabilize the drone's orientation.
-         - target_rad: desired angle in radians (roll or pitch)
-         - current_rad: current angle in radians (roll or pitch)
-         - dt: time step in seconds
-         Returns the control output (torque) to apply.
-        """
-        # if the roll/pitch is positive, apply negative torque to stabilize, and vice versa
-        error = target_rad - current_rad
-        # normalize error to be within [-pi, pi]
-        error = math.atan2(math.sin(error), math.cos(error))
-        self.integral += error * dt
-        derivative = (error - self.previous_error) / dt if dt > 0 else 0
-        output = self.kp * error + self.ki * self.integral + self.kd * derivative
-        self.previous_error = error
-        return output
-
 class ElevPIDController:
     """Simple PID controller for stabilizing altitude."""
     def __init__(self, kp, ki, kd):
@@ -214,7 +180,6 @@ class ElevPIDController:
         output = self.kp * error + self.ki * self.integral + self.kd * derivative
         self.previous_error = error
         return output
-
 
 if __name__ == '__main__':
     try:
