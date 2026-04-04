@@ -254,7 +254,7 @@
     <!-- Singleton Links and Joints from URDF -->
     <link name="link_drone_body">
         <inertial>
-            <origin xyz="-0.000304819 -3.77332e-05 0.00999998" rpy="0 0 0" />
+            <origin xyz="0.0 0.0 0.01" rpy="0 0 0" />
             <mass value="0.27585" />
             <inertia ixx="0.000944175" ixy="8.5525e-07" ixz="-1.878e-09" iyy="0.000942851"
                 iyz="-2.499e-09" izz="0.0018689" />
@@ -326,7 +326,7 @@
     <!-- LINK - CAMERA - DOWNWARD FACING -->
     <link name="link_down_camera">
         <inertial>
-            <origin xyz="-0 0 -0.0" rpy="0 0 0" />
+            <origin xyz="-0 0 -0.005" rpy="0 0 0" />
             <mass value="0.01" />
             <inertia ixx="4.16667e-07" ixy="0" ixz="0" iyy="4.16667e-07" iyz="0" izz="6.66667e-07" />
         </inertial>
@@ -350,7 +350,7 @@
     <!-- LINK - LASER - DOWNWARD FACING (just use same linktype as camera for now)-->
     <link name="link_down_laser">
         <inertial>
-            <origin xyz="-0 0 -0.0" rpy="0 0 0" />
+            <origin xyz="-0 0 -0.005" rpy="0 0 0" />
             <mass value="0.01" />
             <inertia ixx="4.16667e-07" ixy="0" ixz="0" iyy="4.16667e-07" iyz="0" izz="6.66667e-07" />
         </inertial>
@@ -371,6 +371,96 @@
         </collision>
     </link>
 
+    <link name="link_stand1">
+        <inertial>
+            <origin xyz="-0.00 -0.00 -0.01" rpy="0 0 0" />
+            <mass value="0.01" />
+            <inertia ixx="4.16667e-07" ixy="0" ixz="0" iyy="4.16667e-07" iyz="0" izz="6.66667e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="-0 0 0" rpy="1.5708 -0 0" />
+            <geometry>
+                <mesh filename="package://drone_desc/meshes/link_camera.stl" />
+            </geometry>
+            <material name="link_camera_material">
+                <color rgba="0 0 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0 0 0" rpy="1.5708 -0 0" />
+            <geometry>
+                <mesh filename="package://drone_desc/meshes/link_camera.stl" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="link_stand2">
+        <inertial>
+            <origin xyz="-0.00 -0.00 -0.01" rpy="0 0 0" />
+            <mass value="0.01" />
+            <inertia ixx="4.16667e-07" ixy="0" ixz="0" iyy="4.16667e-07" iyz="0" izz="6.66667e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="-0 0 0" rpy="1.5708 -0 0" />
+            <geometry>
+                <mesh filename="package://drone_desc/meshes/link_camera.stl" />
+            </geometry>
+            <material name="link_camera_material">
+                <color rgba="0 0 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0 0 0" rpy="1.5708 -0 0" />
+            <geometry>
+                <mesh filename="package://drone_desc/meshes/link_camera.stl" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="link_stand3">
+        <inertial>
+            <origin xyz="-0.00 -0.00 -0.01" rpy="0 0 0" />
+            <mass value="0.01" />
+            <inertia ixx="4.16667e-07" ixy="0" ixz="0" iyy="4.16667e-07" iyz="0" izz="6.66667e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="-0 0 0" rpy="1.5708 -0 0" />
+            <geometry>
+                <mesh filename="package://drone_desc/meshes/link_camera.stl" />
+            </geometry>
+            <material name="link_camera_material">
+                <color rgba="0 0 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0 0 0" rpy="1.5708 -0 0" />
+            <geometry>
+                <mesh filename="package://drone_desc/meshes/link_camera.stl" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="link_stand4">
+        <inertial>
+            <origin xyz="-0.00 -0.00 -0.01" rpy="0 0 0" />
+            <mass value="0.01" />
+            <inertia ixx="4.16667e-07" ixy="0" ixz="0" iyy="4.16667e-07" iyz="0" izz="6.66667e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="-0 0 0" rpy="1.5708 -0 0" />
+            <geometry>
+                <mesh filename="package://drone_desc/meshes/link_camera.stl" />
+            </geometry>
+            <material name="link_camera_material">
+                <color rgba="0 0 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0 0 0" rpy="1.5708 -0 0" />
+            <geometry>
+                <mesh filename="package://drone_desc/meshes/link_camera.stl" />
+            </geometry>
+        </collision>
+    </link>
+
+
     <joint name="joint_imu" type="fixed">
         <origin xyz="0 0 0.005" rpy="0 0 0" />
         <parent link="link_drone_body" />
@@ -378,21 +468,43 @@
     </joint>
 
     <joint name="joint_camera" type="fixed">
-        <origin xyz="0.0197234 -8.03059e-05 0.02" rpy="-0 -0 -0" />
+        <origin xyz="0.0197234 -0.0 0.02" rpy="-0 -0 -0" />
         <parent link="link_drone_body" />
         <child link="link_camera" />
     </joint>
 
     <joint name="joint_down_camera" type="fixed">
-        <origin xyz="0.01 0.0 -0.01" rpy="-0 1.5708 -0" />
+        <origin xyz="0.01 0.0 0.005" rpy="-0 1.5708 -0" />
         <parent link="link_drone_body" />
         <child link="link_down_camera" />
     </joint>
 
     <joint name="joint_down_laser" type="fixed">
-        <origin xyz="-0.01 0.0 -0.01" rpy="-0 1.5708 -0" />
+        <origin xyz="-0.01 0.0 0.005" rpy="-0 1.5708 -0" />
         <parent link="link_drone_body" />
         <child link="link_down_laser" />
+    </joint>
+
+    <!-- DRONE STAND JOINTS -->
+    <joint name="joint_stand1" type="fixed">
+        <origin xyz="0.03 0.03 -0.005" rpy="-0 1.5708 -0" />
+        <parent link="link_drone_body" />
+        <child link="link_stand1" />
+    </joint>
+    <joint name="joint_stand2" type="fixed">
+        <origin xyz="0.03 -0.03 -0.005" rpy="-0 1.5708 -0" />
+        <parent link="link_drone_body" />
+        <child link="link_stand2" />
+    </joint>
+    <joint name="joint_stand3" type="fixed">
+        <origin xyz="-0.03 0.03 -0.005" rpy="-0 1.5708 -0" />
+        <parent link="link_drone_body" />
+        <child link="link_stand3" />
+    </joint>
+    <joint name="joint_stand4" type="fixed">
+        <origin xyz="-0.03 -0.03 -0.005" rpy="-0 1.5708 -0" />
+        <parent link="link_drone_body" />
+        <child link="link_stand4" />
     </joint>
 
     <!-- End of Extra Links and Joints -->
@@ -407,7 +519,7 @@
             <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
                 <topicName>imu</topicName> <!-- inherits namespace, doesn't need  -->
                 <bodyName>link_imu</bodyName>
-                <updateRateHZ>100.0</updateRateHZ>
+                <updateRateHZ>30.0</updateRateHZ>
                 <gaussianNoise>0.0</gaussianNoise>
                 <xyzOffset>0 0 0</xyzOffset>
                 <rpyOffset>0 0 0</rpyOffset>
@@ -498,7 +610,7 @@
         <sensor type="ray" name="head_hokuyo_sensor">
         <pose>0 0 0 0 0 0</pose>
         <visualize>true</visualize>
-        <update_rate>40</update_rate>
+        <update_rate>30.0</update_rate>
         <ray>
             <scan>
             <horizontal>
@@ -510,7 +622,7 @@
             </scan>
             <range>
             <min>0.10</min>
-            <max>30.0</max>
+            <max>100.0</max>
             <resolution>0.01</resolution>
             </range>
             <noise>
