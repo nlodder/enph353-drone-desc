@@ -276,6 +276,138 @@
         </collision>
     </link>
 
+    <!-- DRONE BODY NEON ORANGE -->
+    <gazebo reference="link_drone_body">
+        <visual>
+            <material>
+                <ambient>1 0.5 0 1</ambient>
+                <diffuse>1 0.5 0 1</diffuse>
+                <specular>0.5 0.5 0.5 1</specular>
+                <emissive>0.6 0.3 0 1</emissive> 
+            </material>
+        </visual>
+    </gazebo>
+    <gazebo reference="link_rotor_fr">
+        <visual>
+            <material>
+                <ambient>1 0.5 0 1</ambient>
+                <diffuse>1 0.5 0 1</diffuse>
+                <specular>0.5 0.5 0.5 1</specular>
+                <emissive>0.6 0.3 0 1</emissive> 
+            </material>
+        </visual>
+    </gazebo>
+    <gazebo reference="link_rotor_fl">
+        <visual>
+            <material>
+                <ambient>1 0.5 0 1</ambient>
+                <diffuse>1 0.5 0 1</diffuse>
+                <specular>0.5 0.5 0.5 1</specular>
+                <emissive>0.6 0.3 0 1</emissive> 
+            </material>
+        </visual>
+    </gazebo>
+    <gazebo reference="link_rotor_rl">
+        <visual>
+            <material>
+                <ambient>1 0.5 0 1</ambient>
+                <diffuse>1 0.5 0 1</diffuse>
+                <specular>0.5 0.5 0.5 1</specular>
+                <emissive>0.6 0.3 0 1</emissive> 
+            </material>
+        </visual>
+    </gazebo><gazebo reference="link_rotor_rr">
+        <visual>
+            <material>
+                <ambient>1 0.5 0 1</ambient>
+                <diffuse>1 0.5 0 1</diffuse>
+                <specular>0.5 0.5 0.5 1</specular>
+                <emissive>0.6 0.3 0 1</emissive> 
+            </material>
+        </visual>
+    </gazebo>
+    <gazebo reference="link_motor_fr">
+        <visual>
+            <material>
+                <ambient>1 0.5 0 1</ambient>
+                <diffuse>1 0.5 0 1</diffuse>
+                <specular>0.5 0.5 0.5 1</specular>
+                <emissive>0.6 0.3 0 1</emissive> 
+            </material>
+        </visual>
+    </gazebo>
+    <gazebo reference="link_motor_fl">
+        <visual>
+            <material>
+                <ambient>1 0.5 0 1</ambient>
+                <diffuse>1 0.5 0 1</diffuse>
+                <specular>0.5 0.5 0.5 1</specular>
+                <emissive>0.6 0.3 0 1</emissive> 
+            </material>
+        </visual>
+    </gazebo>
+    <gazebo reference="link_motor_rl">
+        <visual>
+            <material>
+                <ambient>1 0.5 0 1</ambient>
+                <diffuse>1 0.5 0 1</diffuse>
+                <specular>0.5 0.5 0.5 1</specular>
+                <emissive>0.6 0.3 0 1</emissive> 
+            </material>
+        </visual>
+    </gazebo>
+    <gazebo reference="link_motor_rr">
+        <visual>
+            <material>
+                <ambient>1 0.5 0 1</ambient>
+                <diffuse>1 0.5 0 1</diffuse>
+                <specular>0.5 0.5 0.5 1</specular>
+                <emissive>0.6 0.3 0 1</emissive> 
+            </material>
+        </visual>
+    </gazebo>
+    <gazebo reference="link_front_camera">
+        <visual>
+            <material>
+                <ambient>1 0.5 0 1</ambient>
+                <diffuse>1 0.5 0 1</diffuse>
+                <specular>0.5 0.5 0.5 1</specular>
+                <emissive>0.6 0.3 0 1</emissive> 
+            </material>
+        </visual>
+    </gazebo>
+    <gazebo reference="link_back_camera">
+        <visual>
+            <material>
+                <ambient>1 0.5 0 1</ambient>
+                <diffuse>1 0.5 0 1</diffuse>
+                <specular>0.5 0.5 0.5 1</specular>
+                <emissive>0.6 0.3 0 1</emissive> 
+            </material>
+        </visual>
+    </gazebo>
+    <gazebo reference="link_right_camera">
+        <visual>
+            <material>
+                <ambient>1 0.5 0 1</ambient>
+                <diffuse>1 0.5 0 1</diffuse>
+                <specular>0.5 0.5 0.5 1</specular>
+                <emissive>0.6 0.3 0 1</emissive> 
+            </material>
+        </visual>
+    </gazebo>
+    <gazebo reference="link_left_camera">
+        <visual>
+            <material>
+                <ambient>1 0.5 0 1</ambient>
+                <diffuse>1 0.5 0 1</diffuse>
+                <specular>0.5 0.5 0.5 1</specular>
+                <emissive>0.6 0.3 0 1</emissive> 
+            </material>
+        </visual>
+    </gazebo>
+
+    <!-- IMU LINK -->
     <link name="link_imu">
         <inertial>
             <origin xyz="0 0 -0.0025" rpy="0 0 0" />
@@ -300,7 +432,79 @@
     </link>
 
     <!-- LINK - CAMERA - FRONTWARD FACING -->
-    <link name="link_camera">
+    <link name="link_front_camera">
+        <inertial>
+            <origin xyz="-0 0 -0.005" rpy="0 0 0" />
+            <mass value="0.01" />
+            <inertia ixx="4.16667e-07" ixy="0" ixz="0" iyy="4.16667e-07" iyz="0" izz="6.66667e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="-0 0 0" rpy="1.5708 -0 0" />
+            <geometry>
+                <mesh filename="package://drone_desc/meshes/link_camera.stl" />
+            </geometry>
+            <material name="link_camera_material">
+                <color rgba="0 0 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0 0 0" rpy="1.5708 -0 0" />
+            <geometry>
+                <mesh filename="package://drone_desc/meshes/link_camera.stl" />
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- LINK - CAMERA - LEFTWARD FACING -->
+    <link name="link_left_camera">
+        <inertial>
+            <origin xyz="-0 0 -0.005" rpy="0 0 0" />
+            <mass value="0.01" />
+            <inertia ixx="4.16667e-07" ixy="0" ixz="0" iyy="4.16667e-07" iyz="0" izz="6.66667e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="-0 0 0" rpy="1.5708 -0 0" />
+            <geometry>
+                <mesh filename="package://drone_desc/meshes/link_camera.stl" />
+            </geometry>
+            <material name="link_camera_material">
+                <color rgba="0 0 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0 0 0" rpy="1.5708 -0 0" />
+            <geometry>
+                <mesh filename="package://drone_desc/meshes/link_camera.stl" />
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- LINK - CAMERA - RIGHTWARD FACING -->
+    <link name="link_right_camera">
+        <inertial>
+            <origin xyz="-0 0 -0.005" rpy="0 0 0" />
+            <mass value="0.01" />
+            <inertia ixx="4.16667e-07" ixy="0" ixz="0" iyy="4.16667e-07" iyz="0" izz="6.66667e-07" />
+        </inertial>
+        <visual>
+            <origin xyz="-0 0 0" rpy="1.5708 -0 0" />
+            <geometry>
+                <mesh filename="package://drone_desc/meshes/link_camera.stl" />
+            </geometry>
+            <material name="link_camera_material">
+                <color rgba="0 0 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0 0 0" rpy="1.5708 -0 0" />
+            <geometry>
+                <mesh filename="package://drone_desc/meshes/link_camera.stl" />
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- LINK - CAMERA - BACKWARD FACING -->
+    <link name="link_back_camera">
         <inertial>
             <origin xyz="-0 0 -0.005" rpy="0 0 0" />
             <mass value="0.01" />
@@ -348,7 +552,7 @@
     </link>
 
     <!-- LINK - LASER - DOWNWARD FACING (just use same linktype as camera for now)-->
-    <link name="link_down_laser">
+    <link name="link_down_depth">
         <inertial>
             <origin xyz="-0 0 -0.005" rpy="0 0 0" />
             <mass value="0.01" />
@@ -371,6 +575,7 @@
         </collision>
     </link>
 
+    <!-- STAND FOR DRONE TO REST ON -->
     <link name="link_stand1">
         <inertial>
             <origin xyz="-0.00 -0.00 -0.01" rpy="0 0 0" />
@@ -467,10 +672,28 @@
         <child link="link_imu" />
     </joint>
 
-    <joint name="joint_camera" type="fixed">
+    <joint name="joint_front_camera" type="fixed">
         <origin xyz="0.0197234 -0.0 0.02" rpy="-0 -0 -0" />
         <parent link="link_drone_body" />
-        <child link="link_camera" />
+        <child link="link_front_camera" />
+    </joint>
+
+    <joint name="joint_left_camera" type="fixed">
+        <origin xyz="0.0 0.0197234 0.02" rpy="-0 -0 1.570796" />
+        <parent link="link_drone_body" />
+        <child link="link_left_camera" />
+    </joint>
+
+    <joint name="joint_right_camera" type="fixed">
+        <origin xyz="0.0 -0.0197234 0.02" rpy="-0 -0 -1.570796" />
+        <parent link="link_drone_body" />
+        <child link="link_right_camera" />
+    </joint>
+
+    <joint name="joint_back_camera" type="fixed">
+        <origin xyz="-0.0197234 -0.0 0.02" rpy="-0 -0 3.141592" />
+        <parent link="link_drone_body" />
+        <child link="link_back_camera" />
     </joint>
 
     <joint name="joint_down_camera" type="fixed">
@@ -479,10 +702,10 @@
         <child link="link_down_camera" />
     </joint>
 
-    <joint name="joint_down_laser" type="fixed">
-        <origin xyz="-0.01 0.0 0.005" rpy="-0 1.5708 -0" />
+    <joint name="joint_down_depth" type="fixed">
+        <origin xyz="-0.00 0.0 0.005" rpy="-0 1.5708 -0" />
         <parent link="link_drone_body" />
-        <child link="link_down_laser" />
+        <child link="link_down_depth" />
     </joint>
 
     <!-- DRONE STAND JOINTS -->
@@ -531,10 +754,48 @@
     </gazebo>
 
     <!-- plugin in case we want to control with camera -->
-    <gazebo reference="link_camera">
-        <sensor type="camera" name="camera1">
+    <gazebo reference="link_front_camera">
+        <sensor type="camera" name="camera_front">
             <update_rate>30.0</update_rate>
-            <camera name="front_cam">
+            <camera name="camera_front">
+                <horizontal_fov>1.3962634</horizontal_fov>
+                <image>
+                    <width>800</width>
+                    <height>800</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.001</near>
+                    <far>300</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            </camera>
+            <plugin name="camera_front" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>camera_front</cameraName>
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>link_front_camera</frameName>
+                <hackBaseline>0.07</hackBaseline>
+                <distortionK1>0.0</distortionK1>
+                <distortionK2>0.0</distortionK2>
+                <distortionK3>0.0</distortionK3>
+                <distortionT1>0.0</distortionT1>
+                <distortionT2>0.0</distortionT2>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+    <!-- plugin in case we want to control with camera -->
+    <gazebo reference="link_left_camera">
+        <sensor type="camera" name="camera_left">
+            <update_rate>30.0</update_rate>
+            <camera name="camera_left">
                 <horizontal_fov>1.3962634</horizontal_fov>
                 <image>
                     <width>800</width>
@@ -551,13 +812,89 @@
                     <stddev>0.007</stddev>
                 </noise>
             </camera>
-            <plugin name="front_cam" filename="libgazebo_ros_camera.so">
+            <plugin name="camera_left" filename="libgazebo_ros_camera.so">
                 <alwaysOn>true</alwaysOn>
                 <updateRate>0.0</updateRate>
-                <cameraName>camera1</cameraName>
+                <cameraName>camera_left</cameraName>
                 <imageTopicName>image_raw</imageTopicName>
                 <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-                <frameName>link_camera</frameName>
+                <frameName>link_left_camera</frameName>
+                <hackBaseline>0.07</hackBaseline>
+                <distortionK1>0.0</distortionK1>
+                <distortionK2>0.0</distortionK2>
+                <distortionK3>0.0</distortionK3>
+                <distortionT1>0.0</distortionT1>
+                <distortionT2>0.0</distortionT2>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+    <!-- plugin in case we want to control with camera -->
+    <gazebo reference="link_right_camera">
+        <sensor type="camera" name="camera_right">
+            <update_rate>30.0</update_rate>
+            <camera name="camera_right">
+                <horizontal_fov>1.3962634</horizontal_fov>
+                <image>
+                    <width>800</width>
+                    <height>800</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.02</near>
+                    <far>300</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            </camera>
+            <plugin name="camera_right" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>camera_right</cameraName>
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>link_right_camera</frameName>
+                <hackBaseline>0.07</hackBaseline>
+                <distortionK1>0.0</distortionK1>
+                <distortionK2>0.0</distortionK2>
+                <distortionK3>0.0</distortionK3>
+                <distortionT1>0.0</distortionT1>
+                <distortionT2>0.0</distortionT2>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+    <!-- plugin in case we want to control with camera -->
+    <gazebo reference="link_back_camera">
+        <sensor type="camera" name="camera_back">
+        <update_rate>30.0</update_rate>
+            <camera name="camera_back">
+                <horizontal_fov>1.3962634</horizontal_fov>
+                <image>
+                    <width>800</width>
+                    <height>800</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.02</near>
+                    <far>300</far>
+                </clip>
+            <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+            </noise>
+            </camera>
+            <plugin name="camera_back" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>camera_back</cameraName>
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>link_back_camera</frameName>
                 <hackBaseline>0.07</hackBaseline>
                 <distortionK1>0.0</distortionK1>
                 <distortionK2>0.0</distortionK2>
@@ -569,9 +906,9 @@
     </gazebo>
 
     <gazebo reference="link_down_camera">
-        <sensor type="camera" name="camera2">
+        <sensor type="camera" name="camera_down">
             <update_rate>30.0</update_rate>
-            <camera name="down_cam">
+            <camera name="camera_down">
                 <horizontal_fov>1.3962634</horizontal_fov>
                 <image>
                     <width>800</width>
@@ -588,10 +925,10 @@
                     <stddev>0.007</stddev>
                 </noise>
             </camera>
-            <plugin name="down_cam" filename="libgazebo_ros_camera.so">
+            <plugin name="camera_down" filename="libgazebo_ros_camera.so">
                 <alwaysOn>true</alwaysOn>
                 <updateRate>0.0</updateRate>
-                <cameraName>camera2</cameraName>
+                <cameraName>camera_down</cameraName>
                 <imageTopicName>image_raw</imageTopicName>
                 <cameraInfoTopicName>camera_info</cameraInfoTopicName>
                 <frameName>link_down_camera</frameName>
@@ -605,39 +942,33 @@
         </sensor>
     </gazebo>
 
-    <!-- DOWN LASER -->
-    <gazebo reference="link_down_laser">
-        <sensor type="ray" name="head_hokuyo_sensor">
-        <pose>0 0 0 0 0 0</pose>
-        <visualize>true</visualize>
-        <update_rate>30.0</update_rate>
-        <ray>
-            <scan>
-            <horizontal>
-                <samples>720</samples>
-                <resolution>1</resolution>
-                <min_angle>-0.785398</min_angle>
-                <max_angle>0.785398</max_angle>
-            </horizontal>
-            </scan>
-            <range>
-            <min>0.10</min>
-            <max>100.0</max>
-            <resolution>0.01</resolution>
-            </range>
-            <noise>
-            <type>gaussian</type>
-            <!-- Noise parameters based on published spec for Hokuyo laser
-                achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
-                stddev of 0.01m will put 99.7% of samples within 0.03m of the true
-                reading. -->
-            <mean>0.0</mean>
-            <stddev>0.01</stddev>
-            </noise>
-        </ray>
-        <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
-            <topicName>down_laser/scan</topicName>
-            <frameName>hokuyo_link</frameName>
+    <gazebo reference="link_down_depth">
+        <sensor type="depth" name="depth_sensor">
+            <update_rate>30</update_rate>
+            <camera>
+            <horizontal_fov>1.047198</horizontal_fov>
+            <image>
+                <width>640</width>
+                <height>480</height>
+                <format>R8G8B8</format>
+            </image>
+            <clip>
+                <near>0.05</near>
+                <far>100</far>
+            </clip>
+            </camera>
+            <plugin name="depth_controller" filename="libgazebo_ros_openni_kinect.so">
+                <baseline>0.2</baseline>
+                <alwaysOn>true</alwaysOn>
+                <updateRate>1.0</updateRate>
+                <cameraName>depth_sensor</cameraName>
+                <imageTopicName>rgb/image_raw</imageTopicName>
+                <depthImageTopicName>depth/image_raw</depthImageTopicName>
+                <pointCloudTopicName>depth/points</pointCloudTopicName>
+                <frameName>depth_link_optical</frameName>
+                <pointCloudCutoff>0.005</pointCloudCutoff>
+                <pointCloudCutoffMax>100.0</pointCloudCutoffMax>
+                <rangeMax>100.0</rangeMax>
         </plugin>
         </sensor>
     </gazebo>
@@ -656,15 +987,15 @@
         <enable_wind>true</enable_wind>
     </gazebo>
     <gazebo reference="link_rotor_fl">
-        <enable_wind>true</enable_wind>
+        <enable_wind>false</enable_wind>
     </gazebo>
     <gazebo reference="link_rotor_fr">
-        <enable_wind>true</enable_wind>
+        <enable_wind>false</enable_wind>
     </gazebo>
     <gazebo reference="link_rotor_rl">
-        <enable_wind>true</enable_wind>
+        <enable_wind>false</enable_wind>
     </gazebo>
     <gazebo reference="link_rotor_rr">
-        <enable_wind>true</enable_wind>
+        <enable_wind>false</enable_wind>
     </gazebo>
 </robot>

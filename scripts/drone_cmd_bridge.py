@@ -5,7 +5,7 @@ from std_msgs.msg import Float64
 from sensor_msgs.msg import Imu
 from gazebo_msgs.srv import GetPhysicsProperties
 from gazebo_msgs.srv import ApplyBodyWrench
-import xml.etree.ElementTree as ET #to parse urdf for mass data 
+import xml.etree.ElementTree as ET #to parse urdf for mass data
 
 class DroneCmdBridge:
     def __init__(self):
@@ -22,7 +22,7 @@ class DroneCmdBridge:
         rospy.Subscriber("imu", Imu, self.imu_callback)
         rospy.Subscriber("altitude", Float64, self.altitude_callback)
         rospy.Subscriber("rp_stabilizer_wrench", Wrench, self.rp_stabilizer_callback)
-        rospy.Subscriber("abs_z_target", Float64, self.abs_z_target_callback) # for receiving absolute altitude targets if desired        
+        rospy.Subscriber("abs_z_target", Float64, self.abs_z_target_callback) # for receiving absolute altitude targets if desired  
         
         self.ns = rospy.get_namespace().strip('/')
         self.target_body = f"{self.ns}::link_drone_body"
@@ -34,7 +34,7 @@ class DroneCmdBridge:
         self.TORQUE_SCALE = 0.1
 
         # PID for altitude stabilization
-        self.elev_PID = ElevPIDController(kp=2.1, ki=0.01, kd=1.2)
+        self.elev_PID = ElevPIDController(kp=2.3, ki=0.01, kd=1.2)
         self.desired_z = 8 # desired altitude in meters
         self.current_z = 0.1 # current altitude in meters, updated from Gazebo
         self.desired_abs_z = -1.0 # if set to a positive value, this will override desired_z and the drone will try to maintain this absolute altitude instead of adjusting based on cmd_vel vertical component
