@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 from geometry_msgs.msg import Wrench, Twist
-from std_msgs.msg import Float64
+from std_msgs.msg import Float64, String
 from sensor_msgs.msg import Imu
 from gazebo_msgs.srv import GetPhysicsProperties
 from gazebo_msgs.srv import ApplyBodyWrench
@@ -16,14 +16,17 @@ class DroneCmdBridge:
             - Prepares to apply wrenches to the drone in Gazebo based on the received commands and sensor data.
         """
         rospy.init_node('drone_cmd_bridge')
+        self.UPDATE_HZ = 30
+
+        self.current_wrench = Wrench()
         
-        # subscribe to drone's cmd_vel topic
         rospy.Subscriber("cmd_vel", Twist, self.vel_callback)
         rospy.Subscriber("imu", Imu, self.imu_callback)
         rospy.Subscriber("altitude", Float64, self.altitude_callback)
         rospy.Subscriber("rpy_stabilizer_wrench", Wrench, self.rpy_stabilizer_callback)
         rospy.Subscriber("abs_z_target", Float64, self.abs_z_target_callback) # for receiving absolute altitude targets if desired  
-        
+        self.state_pub = rospy.Publisher("bridge/state", String, queue_size=10)
+
         self.ns = rospy.get_namespace().strip('/')
         self.target_body = f"{self.ns}::link_drone_body"
 
@@ -37,15 +40,12 @@ class DroneCmdBridge:
         self.elev_PID = ElevPIDController(kp=2.3, ki=0.01, kd=1.2)
         self.desired_z = 0.1 # desired altitude in meters
         self.current_z = 0.1 # current altitude in meters, updated from Gazebo
-        self.desired_abs_z = -1.0 # if set to a positive value, this will override desired_z and the drone will try to maintain this absolute altitude instead of adjusting based on cmd_vel vertical component
+        self.desired_abs_z = -0.1 # if set to a positive value, this will override desired_z and the drone will try to maintain this absolute altitude instead of adjusting based on cmd_vel vertical component
         
-        self.UPDATE_HZ = 30
         self.DUR_BUFFER = rospy.Duration(1.5 / self.UPDATE_HZ) # force applied for update period
 
-        self.current_wrench = Wrench()
         self.current_wrench.force.z = self.HOVER_FORCE
         self.apply_wrench = rospy.ServiceProxy('/gazebo/apply_body_wrench', ApplyBodyWrench)
-
 
         rospy.sleep(0.5)
     
@@ -110,7 +110,6 @@ class DroneCmdBridge:
         while not rospy.is_shutdown():
             # update vertical force based on altitude error using PID
             self.update_current_wrench_z()
-
             rospy.wait_for_service('/gazebo/apply_body_wrench')
             
             try:
@@ -121,7 +120,8 @@ class DroneCmdBridge:
             except rospy.ServiceException as e:
                 print(f"Service call failed: {e}")
 
-            # self.force_pub.publish(self.current_wrench)
+            state = self.make_state_msg()
+            self.state_pub.publish(state)
             rate.sleep()
     
     def update_current_wrench_z(self):
@@ -178,6 +178,25 @@ class DroneCmdBridge:
         pattern += f"Error Roll: {error_roll:.2f} | Error Pitch: {error_pitch:.2f}"
         rospy.loginfo(pattern)
 
+    def make_state_msg(self):
+        # Calculate the components of the vertical force for clarity
+        total_z_force = self.current_wrench.force.z
+        
+        # Formatting string with fixed columns
+        msg = (
+            f"\n"
+            f"{'Desired Abs Z:':<18} {self.desired_abs_z:>8.2f} m\n"
+            f"{'Current Z:':<18} {self.current_z:>8.2f} m\n"
+            f"{'-----------------------------------':^35}\n"
+            f"{'Hover Force:':<18} {self.HOVER_FORCE:>8.2f} N\n"
+            f"{'PID Z-Adjustment:':<18} {self.z_needed:>8.2f} N\n"
+            f"{'Total Z-Force:':<18} {total_z_force:>8.2f} N\n"
+            f"{'-----------------------------------':^35}\n"
+            f"{'Force X (Cmd):':<18} {self.current_wrench.force.x:>8.2f} N\n"
+            f"{'Force Y (Cmd):':<18} {self.current_wrench.force.y:>8.2f} N\n"
+        )
+        return msg
+
 class ElevPIDController:
     """Simple PID controller for stabilizing altitude."""
     def __init__(self, kp, ki, kd):
@@ -196,6 +215,8 @@ class ElevPIDController:
          Returns the control output (force) to apply.
         """
         error = target_z - current_z
+        if self.previous_error == 0:
+            self.previous_error = error
         self.integral += error * dt
         derivative = (error - self.previous_error) / dt if dt > 0 else 0
         output = self.kp * error + self.ki * self.integral + self.kd * derivative

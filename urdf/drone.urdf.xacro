@@ -216,7 +216,7 @@
 
 
     <!-- ROTOR JOINTS-->
-    <xacro:rotor_link_joint location="fl" inert_xyz="${l_rotor_fl_inert_orig_xyz}"
+    <!-- <xacro:rotor_link_joint location="fl" inert_xyz="${l_rotor_fl_inert_orig_xyz}"
         inert_rpy="${l_rotor_fl_inert_orig_rpy}" vis_xyz="${l_rotor_fl_vis_coll_orig_xyz}"
         vis_rpy="${l_rotor_fl_vis_coll_orig_rpy}" mesh="${l_rotor_fl_mesh}"
         parent_link="${j_rotor_fl_parent_link}" child_link="${j_rotor_fl_child_link}"
@@ -238,7 +238,7 @@
         inert_rpy="${l_rotor_rr_inert_orig_rpy}" vis_xyz="${l_rotor_rr_vis_coll_orig_xyz}"
         vis_rpy="${l_rotor_rr_vis_coll_orig_rpy}" mesh="${l_rotor_rr_mesh}"
         parent_link="${j_rotor_rr_parent_link}" child_link="${j_rotor_rr_child_link}"
-        orig_xyz="${j_rotor_rr_orig_xyz}" orig_rpy="${j_rotor_rr_orig_rpy}" />
+        orig_xyz="${j_rotor_rr_orig_xyz}" orig_rpy="${j_rotor_rr_orig_rpy}" /> -->
 
 
     <!-- Singleton Links and Joints from URDF -->
@@ -277,7 +277,7 @@
             </material>
         </visual>
     </gazebo>
-    <gazebo reference="link_rotor_fr">
+    <!-- <gazebo reference="link_rotor_fr">
         <visual>
             <material>
                 <ambient>1 0.5 0 1</ambient>
@@ -315,7 +315,7 @@
                 <emissive>0.6 0.3 0 1</emissive> 
             </material>
         </visual>
-    </gazebo>
+    </gazebo> -->
     <gazebo reference="link_motor_fr">
         <visual>
             <material>
@@ -732,7 +732,7 @@
             <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
                 <topicName>imu</topicName> <!-- inherits namespace, doesn't need  -->
                 <bodyName>link_imu</bodyName>
-                <updateRateHZ>30.0</updateRateHZ>
+                <updateRateHZ>20.0</updateRateHZ>
                 <gaussianNoise>0.0</gaussianNoise>
                 <xyzOffset>0 0 0</xyzOffset>
                 <rpyOffset>0 0 0</rpyOffset>
@@ -895,9 +895,10 @@
         </sensor>
     </gazebo>
 
-    <gazebo reference="link_down_camera">
+    <!-- NOTE THIS HAS BEEN SET WITH VERY LOW UPDATE RATE TO INCREASE RTF-->
+    <!-- <gazebo reference="link_down_camera">
         <sensor type="camera" name="camera_down">
-            <update_rate>30.0</update_rate>
+            <update_rate>0.01</update_rate>
             <camera name="camera_down">
                 <horizontal_fov>1.3962634</horizontal_fov>
                 <image>
@@ -930,7 +931,7 @@
                 <distortionT2>0.0</distortionT2>
             </plugin>
         </sensor>
-    </gazebo>
+    </gazebo> -->
 
     <gazebo reference="link_down_depth">
         <sensor type="depth" name="depth_sensor">
@@ -967,7 +968,7 @@
     <gazebo reference="link_drone_body">
         <enable_wind>true</enable_wind>
     </gazebo>
-    <gazebo reference="link_rotor_fl">
+    <!-- <gazebo reference="link_rotor_fl">
         <enable_wind>false</enable_wind>
     </gazebo>
     <gazebo reference="link_rotor_fr">
@@ -978,5 +979,5 @@
     </gazebo>
     <gazebo reference="link_rotor_rr">
         <enable_wind>false</enable_wind>
-    </gazebo>
+    </gazebo> -->
 </robot>
