@@ -21,7 +21,7 @@ class DroneCmdBridge:
         rospy.Subscriber("cmd_vel", Twist, self.vel_callback)
         rospy.Subscriber("imu", Imu, self.imu_callback)
         rospy.Subscriber("altitude", Float64, self.altitude_callback)
-        rospy.Subscriber("rp_stabilizer_wrench", Wrench, self.rp_stabilizer_callback)
+        rospy.Subscriber("rpy_stabilizer_wrench", Wrench, self.rpy_stabilizer_callback)
         rospy.Subscriber("abs_z_target", Float64, self.abs_z_target_callback) # for receiving absolute altitude targets if desired  
         
         self.ns = rospy.get_namespace().strip('/')
@@ -35,7 +35,7 @@ class DroneCmdBridge:
 
         # PID for altitude stabilization
         self.elev_PID = ElevPIDController(kp=2.3, ki=0.01, kd=1.2)
-        self.desired_z = 8 # desired altitude in meters
+        self.desired_z = 0.1 # desired altitude in meters
         self.current_z = 0.1 # current altitude in meters, updated from Gazebo
         self.desired_abs_z = -1.0 # if set to a positive value, this will override desired_z and the drone will try to maintain this absolute altitude instead of adjusting based on cmd_vel vertical component
         
@@ -85,15 +85,16 @@ class DroneCmdBridge:
         self.current_z = msg.data
         return
 
-    def rp_stabilizer_callback(self, msg):
+    def rpy_stabilizer_callback(self, msg):
         """
-            Updates the current wrench's torque components based on the incoming roll/pitch stabilization wrench message.
-            - msg: geometry_msgs/Wrench message containing the torques needed for roll and pitch stabilization
-            - The torque x and y components from the message are set as the current wrench's torque components for
-            roll and pitch stabilization. The z torque is ignored as we are not stabilizing yaw.
+            Updates the current wrench's torque components based on the incoming rpy stabilization wrench message.
+            - msg: geometry_msgs/Wrench message containing the torques needed for roll, pitch, and yaw stabilization
+            - The torque x, y, z components from the message are set as the current wrench's torque components for
+            roll, pitch, and yaw stabilization.
         """
         self.current_wrench.torque.x = msg.torque.x
         self.current_wrench.torque.y = msg.torque.y
+        self.current_wrench.torque.z = msg.torque.z
         return
 
     def run(self):

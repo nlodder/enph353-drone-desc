@@ -191,16 +191,6 @@
             <axis xyz="${j_rotor_joint_axis}" />
             <limit effort="${j_rotor_lim_effort}" velocity="${j_rotor_lim_vel}" />
         </joint>
-
-        <gazebo reference="link_rotor_${location}">
-            <plugin name="rotor_${location}_thrust" filename="libgazebo_ros_force.so">
-                <updateRate>100.0</updateRate>
-                <robotNamespace>$(arg name)</robotNamespace>
-                <bodyName>link_rotor_${location}</bodyName>
-                <topicName>rotor_${location}_thrust</topicName>
-                <broadcastTF>true</broadcastTF>
-            </plugin>
-        </gazebo>
     </xacro:macro>
 
     <!-- MOTOR JOINTS -->
@@ -971,15 +961,6 @@
                 <rangeMax>100.0</rangeMax>
         </plugin>
         </sensor>
-    </gazebo>
-
-    <!-- plugin for robot to fly -->
-    <gazebo>
-        <plugin name="drone_mov" filename="libgazebo_ros_force.so">
-            <robotNamespace>$(arg name)</robotNamespace>
-            <bodyName>$(arg name)::link_drone_body</bodyName>
-            <topicName>cmd_force</topicName>
-        </plugin>
     </gazebo>
 
     <!-- enable WIND effects on the drone -->
