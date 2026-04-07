@@ -944,7 +944,7 @@
                 <format>R8G8B8</format>
             </image>
             <clip>
-                <near>0.05</near>
+                <near>0.0001</near>
                 <far>100</far>
             </clip>
             </camera>
@@ -957,7 +957,7 @@
                 <depthImageTopicName>depth/image_raw</depthImageTopicName>
                 <pointCloudTopicName>depth/points</pointCloudTopicName>
                 <frameName>depth_link_optical</frameName>
-                <pointCloudCutoff>0.005</pointCloudCutoff>
+                <pointCloudCutoff>0.0001</pointCloudCutoff>
                 <pointCloudCutoffMax>100.0</pointCloudCutoffMax>
                 <rangeMax>100.0</rangeMax>
         </plugin>
