@@ -40,11 +40,11 @@ class DroneCmdBridge:
         gravity = self.get_gazebo_gravity()
         total_mass = self.get_total_mass()
         self.HOVER_FORCE = gravity * total_mass
-        self.FORCE_SCALE = 3.0
+        self.FORCE_SCALE = 5.0
         self.TORQUE_SCALE = 0.1
 
         # PID for altitude stabilization
-        self.elev_PID = ElevPIDController(kp=3, ki=0.01, kd=1.2)
+        self.elev_PID = ElevPIDController(kp=4, ki=0.01, kd=2)
         self.desired_z = None # desired altitude in meters
         self.current_z = None # current altitude in meters, updated from Gazebo
         self.current_yaw = None
@@ -177,14 +177,14 @@ class DroneCmdBridge:
         fx_world = fx_local * cos_y - fy_local * sin_y
         fy_world = fx_local * sin_y + fy_local * cos_y
 
-        self.current_wrench.force.x = fx_world
-        self.current_wrench.force.y = fy_world
+        self.current_wrench.force.x = min(max(fx_world, -50), 50)
+        self.current_wrench.force.y = min(max(fy_world, -50), 50)
         tx_body = self.stabilization_torque[0]
         ty_body = self.stabilization_torque[1]
 
         self.current_wrench.torque.x = tx_body * cos_y - ty_body * sin_y
         self.current_wrench.torque.y = tx_body * sin_y + ty_body * cos_y
-        self.current_wrench.torque.z = tz_local
+        self.current_wrench.torque.z = min(max(tz_local, -5), 5)
 
         return
 
@@ -194,7 +194,7 @@ class DroneCmdBridge:
             Modifies self.current_wrench.force.z to be the hover force plus the PID output needed to correct altitude errors.
         """
         loc_desired_z = self.desired_z
-        if loc_desired_z is None:
+        if loc_desired_z is None or self.desired_abs_z < 0:
             self.current_wrench.force.z = 0
         else:
             self.z_needed = self.Z_WRENCH_SCALE * self.elev_PID.update(loc_desired_z, self.current_z, 1.0 / self.UPDATE_HZ)
@@ -245,16 +245,9 @@ class DroneCmdBridge:
         
         # Formatting string with fixed columns
         msg = (
-            f"\n"
-            f"{'Desired Abs Z:':<18} {self.desired_abs_z:>8.2f} m\n"
-            f"{'Current Z:':<18} {self.current_z:>8.2f} m\n"
-            f"{'-----------------------------------':^35}\n"
-            f"{'Hover Force:':<18} {self.HOVER_FORCE:>8.2f} N\n"
-            f"{'PID Z-Adjustment:':<18} {self.z_needed:>8.2f} N\n"
-            f"{'Total Z-Force:':<18} {total_z_force:>8.2f} N\n"
-            f"{'-----------------------------------':^35}\n"
-            f"{'Force X (Cmd):':<18} {self.current_wrench.force.x:>8.2f} N\n"
-            f"{'Force Y (Cmd):':<18} {self.current_wrench.force.y:>8.2f} N\n"
+            f"{'Force Z:':<10} {total_z_force:>8.2f} N\n"
+            f"{'Force X:':<10} {self.current_wrench.force.x:>8.2f} N\n"
+            f"{'Force Y:':<10} {self.current_wrench.force.y:>8.2f} N\n"
         )
         return msg
 
