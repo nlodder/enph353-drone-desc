@@ -44,13 +44,14 @@ class DroneCmdBridge:
         self.TORQUE_SCALE = 0.1
 
         # PID for altitude stabilization
-        self.elev_PID = ElevPIDController(kp=2.3, ki=0.01, kd=1.2)
+        self.elev_PID = ElevPIDController(kp=3, ki=0.01, kd=1.2)
         self.desired_z = None # desired altitude in meters
         self.current_z = None # current altitude in meters, updated from Gazebo
         self.current_yaw = None
         self.stabilization_torque = [0,0,0]
         self.desired_abs_z = -0.1 # if set to a positive value, this will override desired_z and the drone will try to maintain this absolute altitude instead of adjusting based on cmd_vel vertical component
-        
+        self.Z_WRENCH_SCALE = 1.7 
+
         self.DUR_BUFFER = rospy.Duration(1.5 / self.UPDATE_HZ) # force applied for update period
 
         self.current_wrench.force.z = self.HOVER_FORCE
@@ -196,7 +197,7 @@ class DroneCmdBridge:
         if loc_desired_z is None:
             self.current_wrench.force.z = 0
         else:
-            self.z_needed = self.elev_PID.update(loc_desired_z, self.current_z, 1.0 / self.UPDATE_HZ)
+            self.z_needed = self.Z_WRENCH_SCALE * self.elev_PID.update(loc_desired_z, self.current_z, 1.0 / self.UPDATE_HZ)
             self.current_wrench.force.z = self.HOVER_FORCE + self.z_needed
         return
     

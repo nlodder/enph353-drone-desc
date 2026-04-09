@@ -782,7 +782,7 @@
     </gazebo>
 
     <!-- plugin in case we want to control with camera -->
-    <gazebo reference="link_left_camera">
+    <!-- <gazebo reference="link_left_camera">
         <sensor type="camera" name="camera_left">
             <update_rate>30.0</update_rate>
             <camera name="camera_left">
@@ -817,10 +817,10 @@
                 <distortionT2>0.0</distortionT2>
             </plugin>
         </sensor>
-    </gazebo>
+    </gazebo> -->
 
     <!-- plugin in case we want to control with camera -->
-    <gazebo reference="link_right_camera">
+    <!-- <gazebo reference="link_right_camera">
         <sensor type="camera" name="camera_right">
             <update_rate>30.0</update_rate>
             <camera name="camera_right">
@@ -855,10 +855,10 @@
                 <distortionT2>0.0</distortionT2>
             </plugin>
         </sensor>
-    </gazebo>
+    </gazebo> -->
 
     <!-- plugin in case we want to control with camera -->
-    <gazebo reference="link_back_camera">
+    <!-- <gazebo reference="link_back_camera">
         <sensor type="camera" name="camera_back">
         <update_rate>30.0</update_rate>
             <camera name="camera_back">
@@ -893,12 +893,12 @@
                 <distortionT2>0.0</distortionT2>
             </plugin>
         </sensor>
-    </gazebo>
+    </gazebo> -->
 
     <!-- NOTE THIS HAS BEEN SET WITH VERY LOW UPDATE RATE TO INCREASE RTF-->
-    <!-- <gazebo reference="link_down_camera">
+    <gazebo reference="link_down_camera">
         <sensor type="camera" name="camera_down">
-            <update_rate>0.01</update_rate>
+            <update_rate>30</update_rate>
             <camera name="camera_down">
                 <horizontal_fov>1.3962634</horizontal_fov>
                 <image>
@@ -931,7 +931,7 @@
                 <distortionT2>0.0</distortionT2>
             </plugin>
         </sensor>
-    </gazebo> -->
+    </gazebo>
 
     <gazebo reference="link_down_depth">
         <sensor type="depth" name="depth_sensor">
