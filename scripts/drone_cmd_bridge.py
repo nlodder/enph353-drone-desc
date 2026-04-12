@@ -97,7 +97,7 @@ class DroneCmdBridge:
         else:
             self.desired_z = self.desired_abs_z # if we have an absolute elevation target, ignore vertical component of cmd_vel and just use the absolute target
         
-        self.desired_z = max(0.1, self.desired_z)  # Prevent going below ground level
+        self.desired_z = max(0.0, self.desired_z)  # Prevent going below ground level
         return
 
     def imu_callback(self, msg):
@@ -177,14 +177,14 @@ class DroneCmdBridge:
         fx_world = fx_local * cos_y - fy_local * sin_y
         fy_world = fx_local * sin_y + fy_local * cos_y
 
-        self.current_wrench.force.x = min(max(fx_world, -50), 50)
-        self.current_wrench.force.y = min(max(fy_world, -50), 50)
+        self.current_wrench.force.x = fx_world
+        self.current_wrench.force.y = fy_world
         tx_body = self.stabilization_torque[0]
         ty_body = self.stabilization_torque[1]
 
         self.current_wrench.torque.x = tx_body * cos_y - ty_body * sin_y
         self.current_wrench.torque.y = tx_body * sin_y + ty_body * cos_y
-        self.current_wrench.torque.z = min(max(tz_local, -5), 5)
+        self.current_wrench.torque.z = tz_local
 
         return
 
